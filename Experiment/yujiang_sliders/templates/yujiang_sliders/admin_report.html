@@ -1,0 +1,27 @@
+{% load otree %}
+{% load i18n %}
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Joueur</th>
+    <th>Poste</th>
+    <th>Score<br>(Page)</th>
+    <th>{% trans "Total score" %}<br>({% trans "All pages" %})</th>
+    <th>Continue</th>
+    <th>Gain</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for p in players_infos %}
+  <tr>
+    <td>p{{ p.joueur }}</td>
+    <td>{{ p.label }}</td>
+    <td>{{ p.score }}</td>
+    <td>{{ p.total_score }}</td>
+    <td>{{ p.continue_expe }}</td>
+    <td>{{ p.payoff }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>

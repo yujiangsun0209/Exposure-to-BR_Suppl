@@ -1,0 +1,33 @@
+{% load otree %}
+{% load i18n %}
+
+<h5 class="mb-3">{% trans "Infos about the dictator game" %}</h5>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Joueur</th>
+        <th>Poste</th>
+        <th>{% trans "Group" %}</th>
+        <th>Role</th>
+        <th>{% trans "Sent" %}</th>
+        <th>{% trans "Die 1" %}</th>
+        <th>{% trans "Die 2" %}</th>
+        <th>{% trans "Payoff" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for p in players_infos %}
+    <tr>
+        <td>p{{p.joueur}}</td>
+        <td>{{p.label}}</td>
+        <td>{{p.group}}</td>
+        <td>{{p.role}}</td>
+        <td>{{p.sent}}</td>
+        <td>{{p.die_1}}</td>
+        <td>{{p.die_2}}</td>
+        <td>{{p.payoff}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

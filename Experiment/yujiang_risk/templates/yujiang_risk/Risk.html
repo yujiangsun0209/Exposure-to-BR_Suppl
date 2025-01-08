@@ -1,0 +1,87 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Partie 3
+{% endblock %}
+
+{% block content %}
+
+<h5>Questionnaire 1</h5>
+<table class="table table-sm table-striped">
+    <tbody>
+    <tr>
+        <td>
+            En règle générale, êtes-vous une personne prête à prendre des
+            risques, ou essayez-vous d'éviter de prendre des risques? Veuillez sélectionner votre réponse sur une
+            échelle de 0 à 10, où 0 correspond à "Pas du tout prêt(e) à
+            prendre des risques" et 10 correspond à "Tout à fait prêt(e) à prendre des risques".
+        </td>
+        <td>{% formfield player.risque_general label="" %}</td>
+    </tr>
+    <tr style="background-color: linen;">
+        <td colspan="2">
+            Les personnes peuvent se comporter de façon différente selon les situations.
+            Comment évaluez-vous votre propension à prendre des risques dans les situations
+            suivantes?
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: right;">Avec votre santé</td>
+        <td>{% formfield player.risque_sante label="" %}</td>
+    </tr>
+    <tr>
+        <td style="text-align: right;">Avec votre argent / vos finances personnelles</td>
+        <td>{% formfield player.risque_argent label="" %}</td>
+    </tr>
+    <tr>
+        <td>
+            En règle générale, êtes-vous une personne impatiente ou une personne patiente ? Vous sélectionner votre
+            réponse sur une échelle de 0 à 10, où 0 correspond à "Très impatient" et 10 correspond à "Très patient".
+        </td>
+        <td>{% formfield player.patience label="" %}</td>
+    </tr>
+    <tr>
+        <td>
+            En règle générale, diriez-vous qu’on peut faire confiance à la plupart des gens, ou qu’on
+            n’est jamais assez prudent dans ses relations avec les gens ?
+        </td>
+        <td>{% formfield player.confiance_autres label="" %}</td>
+    </tr>
+    <tr style="background-color: linen;">
+        <td colspan="2">
+            Pourriez-vous vous positionner sur une échelle de 0 à 10, où 0 correspond à "être très prudent
+            dans les relations avec les autres personnes" et 10 à "être très confiant dans les relations
+            avec les autres"
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: right;">En général</td>
+        <td>{% formfield player.confiance_autres_general label="" %}</td>
+    </tr>
+    <tr>
+        <td style="text-align: right;">Avec les membres de votre famille</td>
+        <td>{% formfield player.confiance_autres_famille label="" %}</td>
+    </tr>
+    <tr>
+        <td style="text-align: right;">Avec vos collègues de travail</td>
+        <td>{% formfield player.confiance_autres_travail label="" %}</td>
+    </tr>
+    </tbody>
+</table>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    document.title = "Questionnaire";
+
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

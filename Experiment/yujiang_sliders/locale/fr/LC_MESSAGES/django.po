@@ -1,0 +1,209 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-23 12:01+0200\n"
+"PO-Revision-Date: 2021-09-23 12:31+0200\n"
+"Last-Translator: Dimitri DUBOIS <dimitri.dubois@umontpellier.fr>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.3\n"
+
+#: models.py:36
+msgid "Yes"
+msgstr "Oui"
+
+#: models.py:36
+msgid "No"
+msgstr "Non"
+
+#: models.py:70 models.py:77
+msgid ""
+"You correctly positioned {} sliders overall, your payoff is therefore equal "
+"to {}."
+msgstr ""
+"Vous avez correctement positionné {} curseurs au total, votre gain est donc "
+"de {}."
+
+#: pages.py:33
+msgid "Time left"
+msgstr "Temps restant"
+
+#: templates/yujiang_sliders/AboutExperiment.html:6
+msgid "About this experiment"
+msgstr "A propos de l'expérience"
+
+#: templates/yujiang_sliders/AboutExperiment.html:13
+msgid ""
+"In this experiment, you can earn a fair amount of money depending on the "
+"efforts and decisions you and others make. Your final payment will be issued "
+"at the end of this experiment."
+msgstr ""
+"Dans cette expérience, vous pouvez gagnez une certaine somme d'argent, en "
+"fonction de vos efforts, de vos décisions et des décisions des autres "
+"participants. Votre gain final sera calculé à la fin de l'expérience."
+
+#: templates/yujiang_sliders/AboutExperiment.html:19
+msgid ""
+"This experiment consists of three parts, and each part consists of one (or "
+"more) task(s). The detailed instruction for each task will be delivered to "
+"you once the previous task is finished. Please read the instruction "
+"carefully before making any decision. Once your decision is made, no "
+"withdrawal is allowed."
+msgstr ""
+"Cette expérience comporte trois parties. Chaque partie comprend une ou "
+"plusieurs tâches. Les instructions de chaque tâche seront affichées lorsque "
+"la tâche précédente sera terminée. Merci de lire les instructions avec "
+"attention avant de prendre vos décisions. Une fois que vous avez cliqué sur "
+"le bouton \"Suivant\" d'une page, vous ne pouvez pas revenir en arrière."
+
+#: templates/yujiang_sliders/Instruction.html:6
+#: templates/yujiang_sliders/Results.html:6
+msgid "Part 1"
+msgstr "Partie 1"
+
+#: templates/yujiang_sliders/Instruction.html:10
+msgid "Task 1 - Instructions"
+msgstr "Tâche 1 - Instructions"
+
+#: templates/yujiang_sliders/Instruction.html:14
+msgid ""
+"In Task 1, you are asked to finish a series of positioning tasks. "
+"Specifically, you will be given 20 sets of numbers and sliders, and you need "
+"to use your mouse to click and drag the slider to precisely the point "
+"indicated by the given number in bold. Once you move the slider, instant "
+"feedback will appear below the slider bar that you are working on. Make sure "
+"the feedback number matches the given number in bold. Once it is done, "
+"please move to the next slider."
+msgstr ""
+"Dans la tâche 1, vous devez positionner des curseurs sur une valeur donnée. "
+"Plus précisément vous aurez 20 curseurs à positionner sur la valeur indiquée "
+"en gras au dessus du curseur. Vous devez pour cela utiliser la souris et/ou "
+"le clavier afin de placer précisément le curseur sur le nombre demandé. Dès "
+"que vous déplacez le curseur, la valeur sur laquelle le curseur est "
+"positionné est affichée juste en dessous. Assurez-vous que cette valeur "
+"corresponde à celle demandée en gras. Une fois effectué, passez au curseur "
+"suivant."
+
+#: templates/yujiang_sliders/Instruction.html:24
+#, python-format
+msgid ""
+"You will be given 20 pairs of numbers and sliders divided into two pages (10 "
+"pairs on each page). <b>The goal is to position at least %(requirement)s "
+"sliders in total correctly, within %(time_given)s minutes.</b> Only those "
+"who accomplish this task will be rewarded %(flat)s at the beginning of Task "
+"2. However, those who fail this task are not allowed to continue with the "
+"rest parts (i.e., Part 2 and 3), and only a minimal show-up fee of "
+"%(show_up)s will be granted to them."
+msgstr ""
+"Les 20 curseurs à positionner sont répartis sur deux pages (10 sur chaque "
+"page). <b>Vous devez positionner au moins %(requirement)s curseurs "
+"correctement au total, en %(time_given)s minutes.</b>  Les participants qui "
+"ont correctement accompli cette tâche recevront %(flat)s au début de la "
+"tâche 2. Ceux qui échouent dans cette tâche ne pourront pas poursuivre "
+"l'expérience; ils recevront une compensation de %(show_up)s."
+
+#: templates/yujiang_sliders/Results.html:10
+msgid "Task 1 - Results"
+msgstr "Tâche 1 - Résultats"
+
+#: templates/yujiang_sliders/Results.html:14
+msgid "You finished Task 1, and your results from this task are shown below."
+msgstr "La tâche 1 est terminée, veuillez trouver ci-dessous les résultats."
+
+#: templates/yujiang_sliders/Results.html:19
+msgid "History"
+msgstr "Historique"
+
+#: templates/yujiang_sliders/Results.html:22
+msgid "Page"
+msgstr "Page"
+
+#: templates/yujiang_sliders/Results.html:23
+msgid "Number of sliders<br>correctly positioned"
+msgstr "Nombre de curseurs<br>correctement positionnés"
+
+#: templates/yujiang_sliders/Results.html:37
+#, python-format
+msgid ""
+"You correctly positioned %(total_sliders_correct)s  sliders overall, and "
+"your payoff from this task is <b>%(flat_rate)s</b>, which will be rewarded "
+"to you at the beginning of Task 2."
+msgstr ""
+"Vous avez correctement positionné %(total_sliders_correct)s curseurs au "
+"total, donc votre gain pour cette tâche est de <b>%(flat_rate)s</b>."
+
+#: templates/yujiang_sliders/Results.html:47
+#, python-format
+msgid ""
+"Unfortunately, you only correctly positioned %(total_sliders_correct)s "
+"slider(s) overall, which is below the task requirement -- %(requirement)s. "
+"Therefore, you will be given <b>%(show_up_fee)s</b>, and your participation "
+"shall be excluded from the rest of this experiment."
+msgstr ""
+"Vous avez correctement positionné uniquement %(total_sliders_correct)s "
+"curseurs au total, ce qui est inférieur aux %(requirement)s requis. Par "
+"conséquent, vous allez recevoir <b>%(show_up_fee)s</b> pour votre "
+"participation, mais vous n'allez pas pouvoir poursuivre l'expérience."
+
+#: templates/yujiang_sliders/Results.html:55
+msgid ""
+"We sincerely appreciate your participation. Please close the experiment now."
+msgstr ""
+"Merci pour votre participation. Veuillez patienter, un expérimentateur va "
+"venir vous chercher."
+
+#: templates/yujiang_sliders/Sliders.html:6
+#, python-format
+msgid "Page %(round_number)s of %(num_rounds)s"
+msgstr "Page %(round_number)s sur %(num_rounds)s"
+
+#: templates/yujiang_sliders/Sliders.html:14
+msgid "Remind"
+msgstr "Rappel"
+
+#: templates/yujiang_sliders/Sliders.html:16
+msgid ""
+"You are given a number and a slider, and you need to use your mouse to click "
+"and drag the slider to precisely the point indicated by the given number in "
+"bold. Once you move the slider, instant feedback will appear below the "
+"slider bar that you are working on. Make sure the feedback number matches "
+"the given <b>number</b> in bold. Once it is done, please move to the next "
+"slider."
+msgstr ""
+"Vous devez positionner 20 curseurs sur la valeur indiquée en gras au dessus "
+"du curseur. Vous devez pour cela utiliser la souris et/ou le clavier afin de "
+"placer précisément le curseur sur le nombre demandé. Dès que vous déplacez "
+"le curseur, la valeur sur laquelle le curseur est positionné est affichée "
+"juste en dessous. Assurez-vous que cette valeur <b>corresponde à celle "
+"demandée</b> en gras. Une fois effectué, passez au curseur suivant."
+
+#: templates/yujiang_sliders/Sliders.html:26
+#: templates/yujiang_sliders/Sliders.html:38
+#: templates/yujiang_sliders/Sliders.html:50
+#: templates/yujiang_sliders/Sliders.html:62
+#: templates/yujiang_sliders/Sliders.html:74
+#: templates/yujiang_sliders/Sliders.html:86
+#: templates/yujiang_sliders/Sliders.html:98
+#: templates/yujiang_sliders/Sliders.html:110
+#: templates/yujiang_sliders/Sliders.html:122
+#: templates/yujiang_sliders/Sliders.html:134
+msgid "Please set this Slider to"
+msgstr "Merci de placer le curseur sur"
+
+#: templates/yujiang_sliders/admin_report.html:10
+msgid "Total score"
+msgstr "Score total"
+
+#: templates/yujiang_sliders/admin_report.html:10
+msgid "All pages"
+msgstr "Les 2 pages"

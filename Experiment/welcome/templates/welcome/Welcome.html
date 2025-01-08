@@ -1,0 +1,66 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Bienvenue au Laboratoire d'Economie Expérimentale de Montpellier" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col-3"></div>
+    <div class="col-6 text-center">
+        {% if language == "fr" %}
+        <img class="img-fluid" src="{% static 'LEEM.png' %}" alt="Logo LEEM">
+        {% else %}
+        <img class="img-fluid" src="{% static 'LEEM_en.png' %}" alt="Logo LEEM">
+        {% endif %}
+    </div>
+    <div class="col-3"></div>
+</div>
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p class="card-text">
+            {% blocktrans trimmed %}
+            L'expérience à laquelle vous allez participer est destinée à l'étude de la prise de décision. Nous vous
+            demandons de lire attentivement les instructions, elles doivent vous permettre de bien comprendre
+            l'expérience. <br>
+            Toutes vos décisions seront traitées de façon anonyme. <br>
+            A partir de maintenant nous vous demandons de ne plus
+            parler. Si vous avez une question levez la main et un expérimentateur viendra vous répondre en privé.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+<input type="checkbox" class="form-check-inline" onclick="enable_next()" id="consent">
+<label for="consent" class="form-check-label mb-3">{% trans "J'ai lu et j'accepte les conditions de l'expérience" %}</label>
+
+{% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const btn_next = document.querySelector(".otree-btn-next");
+    btn_next.disabled = true;
+
+    function enable_next() {
+        btn_next.disabled = false;
+    }
+
+    function fill_auto() {
+        document.querySelector("input[type=checkbox]").click();
+        setTimeout(() => {
+            btn_next.click()
+        }, 3000)
+    }
+
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto()
+    }
+</script>
+{% endblock %}

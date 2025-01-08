@@ -1,0 +1,29 @@
+{% load otree %}
+{% load i18n %}
+
+<h5 class="mb-3">{% trans "Details of payoffs" %}</h5>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Joueur</th>
+        <th>Poste</th>
+        <th>Part 1 payoff</th>
+        <th>Part 2 selected task</th>
+        <th>Part 2 payoff</th>
+        <th>Experiment payoff</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for p in players_infos %}
+    <tr>
+        <td>p{{ p.joueur }}</td>
+        <td>{{ p.label }}</td>
+        <td>{{ p.part1_payoff }}</td>
+        <td>{{ p.part2_selected_task }}</td>
+        <td>{{ p.part2_payoff }}</td>
+        <td>{{ p.payoff }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

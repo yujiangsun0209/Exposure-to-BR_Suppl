@@ -1,0 +1,223 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Part 1" %}
+{% endblock %}
+
+{% block content %}
+    <h5 class="mb-3">{% trans "Task 2 - Results of the understanding questionnaire" %}</h5>
+    <div class="text-right mb-3">
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_content">{% trans "Read again the instructions" %}</button>
+    </div>
+
+    <div class="card bg-light text-justify mb-3">
+        <div class="card-body">
+
+            <p>
+                {% blocktrans trimmed with faults=player.ans_check %}
+                You made {{faults}} mistake(s).
+                {% endblocktrans %}
+            </p>
+
+            {% if treatment == Constants.one_sided_dictator %}
+                <p>
+                    <strong>Question 1</strong>:<br>
+                    {% if player.attempt_1 == 2 %}
+                        {% trans "Your submitted answer for Question 1 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR five=5|c %}
+                            Your submitted answer for Question 1 is incorrect. <br>
+                            The answer should be "{{ans_1}}". <br>
+                            In detail, since the die resulted in an odd number (i.e., 1) and only Participant 1 was affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{five}}) - {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + {{five}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 2</strong>:<br>
+                    {% if player.attempt_2 == 2 %}
+                        {% trans "Your submitted answer for Question 2 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR ten=10|c %}
+                            Your submitted answer for Question 2 is incorrect. <br>
+                            The answer should be "{{ans_2}}". <br>
+                            In detail, since the die resulted in an even number (i.e., 4) and only Participant 1 was affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{ten}}) + {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + {{ten}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 3</strong>:<br>
+                    {% if player.attempt_3 == 2 %}
+                        {% trans "Your submitted answer for Question 3 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR fifteen=15|c %}
+                            Your submitted answer for Question 3 is incorrect. <br>
+                            The answer should be "{{ans_3}}". <br>
+                            In detail, since the die resulted in an odd number (i.e., 5) and only Participant 1 was affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{fifteen}}) - {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + {{fifteen}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+
+            {% elif treatment == Constants.one_sided_recipient %}
+                <p>
+                    <strong>Question 1</strong>:<br>
+                    {% if player.attempt_1 == 0 %}
+                    {% trans "Your submitted answer for Question 1 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR five=5|c %}
+                            Your submitted answer for Question 1 is incorrect. <br>
+                            The answer should be "{{ans_1}}". <br>
+                            In detail, since the die resulted in an odd number (i.e., 1) and only Participant 2 was affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{five}});
+                            the payoff of Participant 2 = {{flat_rate}} + {{five}} - {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 2</strong>:<br>
+                    {% if player.attempt_2 == 0 %}
+                        {% trans "Your submitted answer for Question 2 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR ten=10|c %}
+                            Your submitted answer for Question 2 is incorrect. <br>
+                            The answer should be "{{ans_2}}". <br>
+                            In detail, since the die resulted in an even number (i.e., 4) and only Participant 2 was affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{ten}});
+                            the payoff of Participant 2 = {{flat_rate}} + {{ten}} + {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 3</strong>:<br>
+                    {% if player.attempt_3 == 1 %}
+                        {% trans "Your submitted answer for Question 3 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR fifteen=15|c %}
+                            Your submitted answer for Question 3 is incorrect. <br>
+                            The answer should be "{{ans_3}}". <br>
+                            In detail, since the die resulted in an odd number (i.e., 5) and only Participant 1 was affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{fifteen}});
+                            the payoff of Participant 2 = {{flat_rate}} + {{fifteen}} - {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+
+            {% elif treatment == Constants.common_sym %}
+                <p>
+                    <strong>Question 1</strong>:<br>
+                    {% if player.attempt_1 == 1 %}
+                        {% trans "Your submitted answer for Question 1 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR five=5|c %}
+                            Your submitted answer for Question 1 is incorrect. <br>
+                            The answer should be "{{ans_1}}". <br>
+                            In detail, since the die resulted in an odd number (i.e., 1) and both players were affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{five}}) - {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + {{five}} - {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 2</strong>:<br>
+                    {% if player.attempt_2 == 1 %}
+                        {% trans "Your submitted answer for Question 2 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR ten=10|c %}
+                            Your submitted answer for Question 2 is incorrect. <br>
+                            The answer should be "{{ans_2}}". <br>
+                            In detail, since the die resulted in an even number (i.e., 4) and both players were affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{ten}}) + {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + {{ten}} + {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 3</strong>:<br>
+                    {% if player.attempt_3 == 0 %}
+                        {% trans "Your submitted answer for Question 3 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR fifteen=15|c %}
+                            Your submitted answer for Question 3 is incorrect. <br>
+                            The answer should be "{{ans_3}}". <br>
+                            In detail, since the die resulted in an odd number (i.e., 5) and both players were affected by die-rolling,
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - {{fifteen}}) - {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + {{fifteen}} - {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+
+            {% elif treatment == Constants.common_indep %}
+                <p>
+                    <strong>Question 1</strong>:<br>
+                    {% if player.attempt_1 == 0 %}
+                    {% trans "Your submitted answer for Question 1 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR %}
+                            Your submitted answer for Question 1 is incorrect. <br>
+                            The answer should be "{{ans_1}}". <br>
+                            In detail, since the Die 1 resulted in an odd number (i.e., 2), Die 2 also resulted in an odd number (i.e., 6),
+                            and Participant 1 and Participant 2 were affected by Die 1 and Die 2 respectively, then<br>
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - €5) + {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + €5 + {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 2</strong>:<br>
+                    {% if player.attempt_2 == 1 %}
+                        {% trans "Your submitted answer for Question 2 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR %}
+                            Your submitted answer for Question 2 is incorrect. <br>
+                            The answer should be "{{ans_2}}". <br>
+                            In detail, since the Die 1 resulted in an even number (i.e., 4), Die 2 also resulted in an odd number (i.e., 1),
+                            and Participant 1 and Participant 2 were affected by Die 1 and Die 2 respectively, then<br>
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - €10) + {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + €10 - {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Question 3</strong>:<br>
+                    {% if player.attempt_3 == 2 %}
+                        {% trans "Your submitted answer for Question 3 is correct." %}
+                    {% else %}
+                        {% blocktrans trimmed with flat_rate=Constants.flat_rate endowment=Constants.endowment magnitude_BR=Constants.magnitude_BR %}
+                            Your submitted answer for Question 3 is incorrect. <br>
+                            The answer should be "{{ans_3}}". <br>
+                            In detail, since the Die 1 resulted in an odd number (i.e., 5), Die 2 also resulted in an odd number (i.e., 3),
+                            and Participant 1 and Participant 2 were affected by Die 1 and Die 2 respectively, then<br>
+                            the payoff of Participant 1 = {{flat_rate}} + ({{endowment}} - €15) - {{magnitude_BR}};
+                            the payoff of Participant 2 = {{flat_rate}} + €15 - {{magnitude_BR}}.
+                        {% endblocktrans %}
+                    {% endif %}
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% next_button %}
+
+{% include "global/TemplateModal.html" with title="Instructions" content="yujiang_main/InstructionsTemplate.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}
+
+

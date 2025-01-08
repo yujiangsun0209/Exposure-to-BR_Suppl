@@ -1,0 +1,275 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-23 12:51+0200\n"
+"PO-Revision-Date: 2021-09-23 12:59+0200\n"
+"Last-Translator: Dimitri DUBOIS <dimitri.dubois@umontpellier.fr>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.3\n"
+
+#: models.py:77
+msgid ""
+"You chose to collect {} out of {} boxes. The bomb was hidden behind the box "
+"in row {}, column {}."
+msgstr ""
+"Vous avez ouvert {} cases sur {}. La bombe se situait dans la case à la "
+"ligne {} et à la colonne {}."
+
+#: models.py:81
+msgid ""
+"The bomb was among your {} collected boxes. Accordingly, all your earnings "
+"in this task were destroyed and your payoff amounts to {}. "
+msgstr ""
+"La bombe était dans une des {} cases ouvertes, votre gain est donc de {}. "
+
+#: models.py:85
+msgid ""
+"Your collected boxes did not contain the bomb. Thus, you receive {} for each "
+"of the {} boxes you collected such that your payoff amounts to {}."
+msgstr ""
+"Aucune des cases ouvertes ne contenait la bombe, vous gagnez donc {} pour "
+"chacune des {} cases ouvertes, ce qui fait un gain de {}."
+
+#: templates/yujiang_bret/BePatient.html:6
+#: templates/yujiang_bret/Decision.html:13
+#: templates/yujiang_bret/Instructions.html:7
+#: templates/yujiang_bret/StartPart.html:6
+msgid "Part 2"
+msgstr "Partie 2"
+
+#: templates/yujiang_bret/BePatient.html:10
+msgid "End of Task 1"
+msgstr "Fin de la Tâche 1"
+
+#: templates/yujiang_bret/BePatient.html:14
+#, python-format
+msgid ""
+"You have chosen to collect %(boxes_collected)s out of %(num_boxes)s boxes."
+msgstr "Vous avez ouvert %(boxes_collected)s cases sur les %(num_boxes)s."
+
+#: templates/yujiang_bret/BePatient.html:19
+msgid ""
+"This is the end of Task 1.The results from this task will be displayed at "
+"the end of the experiment."
+msgstr ""
+"La tâche 1 est terminée. Les résultats de cette tâche vous seront "
+"communiqués à la fin de l'expérience."
+
+#: templates/yujiang_bret/Decision.html:17
+msgid "Task 1 - Decision"
+msgstr "Tâche 1 - Décision"
+
+#: templates/yujiang_bret/Decision.html:20
+msgid "Read again the instructions"
+msgstr "Relire les instructions"
+
+#: templates/yujiang_bret/Decision.html:25
+msgid "Please enter the number of box you want to open"
+msgstr "Veuillez saisir le nombre de cases que vous souhaitez ouvrir"
+
+#: templates/yujiang_bret/Decision.html:29
+msgid "Please select the boxes you want to open."
+msgstr "Veuillez sélectionner les cases que vous souhaitez ouvrir."
+
+#: templates/yujiang_bret/Decision.html:81
+msgid "No. of boxes collected:"
+msgstr "Nb. de cases ouvertes:"
+
+#: templates/yujiang_bret/Decision.html:86
+msgid "No. of boxes remaining:"
+msgstr "Nb. de cases restantes:"
+
+#: templates/yujiang_bret/Decision.html:92
+msgid "No. of boxes to collect:"
+msgstr "Nb. de cases à ouvrir:"
+
+#: templates/yujiang_bret/Decision.html:116
+msgid "Start"
+msgstr "Démarrer"
+
+#: templates/yujiang_bret/Decision.html:127
+msgid "Stop"
+msgstr "Valider"
+
+#: templates/yujiang_bret/Decision.html:137
+msgid "Next"
+msgstr "Suivant"
+
+#: templates/yujiang_bret/Instructions.html:11
+msgid "Task 1 - Instructions"
+msgstr "Tâche 1 - Instructions"
+
+#: templates/yujiang_bret/Results.html:6
+msgid "Result"
+msgstr "Résultat"
+
+#: templates/yujiang_bret/Results.html:11
+#, python-format
+msgid "You chose to collect %(boxes_collected)s out of %(num_boxes)s boxes."
+msgstr "Vous avez ouvert %(boxes_collected)s cases sur les %(num_boxes)s."
+
+#: templates/yujiang_bret/Results.html:16
+#, fuzzy, python-format
+#| msgid ""
+#| "The bomb was among your %(boxes_collected)s collected boxes.<br/> "
+#| "Accordingly, all your earnings in this task were destroyed and your "
+#| "payoff amounts to %(payoff)s."
+msgid ""
+"The bomb was among your %(boxes_collected)s collected boxes, your payoff is "
+"therefore equal to %(round_payoff)s €."
+msgstr ""
+"La bombe était dans une des %(boxes_collected)s cases ouvertes, votre gain "
+"est donc de %(payoff)s."
+
+#: templates/yujiang_bret/Results.html:21
+#, fuzzy, python-format
+#| msgid ""
+#| "Your collected boxes did not contain the bomb.<br/> Thus, you receive "
+#| "%(box_value)s for each of the %(boxes_collected)s boxes you collected "
+#| "such that your payoff from this task amounts to <b>%(payoff)s</b>."
+msgid ""
+"Your collected boxes did not contain the bomb.<br/> Thus, you receive "
+"%(box_value)s € for each of the %(boxes_collected)s boxes you collected such "
+"that your payoff is equal to <b>%(round_payoff)s €</b>."
+msgstr ""
+"Aucune des cases ouvertes ne contenait la bombe, vous gagnez donc "
+"%(box_value)s pour chacune des %(boxes_collected)s cases ouvertes, ce qui "
+"fait un gain de <b>%(payoff)s</b>."
+
+#: templates/yujiang_bret/StartPart.html:13
+msgid ""
+"Welcome to Part 2. Your decisions in this part will not affect your payoff "
+"from Part 1. <br> This part is composed of 2 tasks. One of them will be "
+"randomly selected to be paid. The payoff of the selected part will be added "
+"to your payoff from part 1.<br> Please click the \"Next\" bottom to see the "
+"instruction for Task 1 of this part."
+msgstr ""
+"Vos décisions dans cette partie n'affecteront pas vos gains de la partie 1. "
+"<br>Cette partie est composée de deux tâches. Une d'entre elles sera "
+"aléatoirement sélectionnée pour être rémunérée. Le gain de la tâche "
+"sélectionnée pour être payée sera additionné à celui de la partie 1. "
+"<br>Veuillez cliquer sur le bouton \"Suivant\" pour voir les instructions de "
+"la tâche de cette partie 2."
+
+#~ msgid "Solve"
+#~ msgstr "Montrer"
+
+#~ msgid ""
+#~ "In this part, you will see a %(num_rows)sx%(num_cols)s-matrix containing "
+#~ "%(num_boxes)s boxes on your screen."
+#~ msgstr ""
+#~ "Dans cette partie, vous allez voir à l'écran une matrice %(num_rows)sx"
+#~ "%(num_cols)s contenant %(num_boxes)s cases."
+
+#~ msgid ""
+#~ "As soon as you start the task by hitting the 'Start' button, one of the "
+#~ "boxes is collected per second, starting from the top-left corner. Once "
+#~ "collected, the box marked by a tick symbol. For each box collected you "
+#~ "earn %(box_value)s."
+#~ msgstr ""
+#~ "Dès que vous démarrez en cliquant sur le bouton 'Démarrer', une case est "
+#~ "ouverte chaque seconde. Une fois ouverte, la case est cochée. Pour chaque "
+#~ "case ouverte vous gagnez %(box_value)s."
+
+#~ msgid ""
+#~ "Behind one of the boxes hides a bomb that destroys everything that has "
+#~ "been collected. The remaining %(num_nobomb)s boxes are worth "
+#~ "%(box_value)s each. You do not know where the bomb is located. You only "
+#~ "know that the bomb can be in any place with equal probability."
+#~ msgstr ""
+#~ "Derrière une des cases se cache une bombe qui détruit tout ce qui a été "
+#~ "ouvert. Les %(num_nobomb)s cases restantes valent chacune %(box_value)s. "
+#~ "Vous ne savez pas où est la bombe. Vous savez simplement qu'une bombe "
+#~ "peut-être derrière n'importe quelle case avec une égale probabilité."
+
+#~ msgid ""
+#~ "Your task is to choose when to stop the collecting process. You do so by "
+#~ "hitting 'Stop' at any time. If you collect the box where the bomb is "
+#~ "located, the bomb will explode and you will earn zero. If you stop before "
+#~ "collecting the bomb, you gain the amount accumulated that far."
+#~ msgstr ""
+#~ "Vous devez décider quand vous arrêtez le processus d'ouverture des cases. "
+#~ "Pour se faire vous devez cliquer sur le bouton 'Stop'. Si vous ouvrez la "
+#~ "case avec la bombe celle-ci explose et vous gagnez zéro. Si vous arrêtez "
+#~ "le processus avant de tomber sur la bombe vous gagnez le montant accumulé "
+#~ "jusque là."
+
+#~ msgid ""
+#~ "Your task is to choose the number of boxes you want to open. If you open "
+#~ "the box where the bomb is located, the bomb will explode and you will "
+#~ "earn zero. Otherwise you will earn %(box_value)s for each opened box."
+#~ msgstr ""
+#~ "Vous devez décider du nombre de cases que vous souhaitez ouvrir. Si vous "
+#~ "ouvrez la case avec la bombe celle-ci explose et vous gagnez zéro. Sinon, "
+#~ "vous gagnez %(box_value)s pour chaque case ouverte."
+
+#~ msgid ""
+#~ "At the end of the task boxes are toggled by hitting the 'Solve' button. A "
+#~ "dollar sign or a fire symbol (for the bomb) will be shown on each of your "
+#~ "collected boxes."
+#~ msgstr ""
+#~ "A la fin, les cases vous sont toutes montrées en cliquant sur le bouton "
+#~ "'Montrer'. Chaque case ouverte sera remplie soit du signe dollar soit de "
+#~ "la bombe."
+
+#~ msgid ""
+#~ "Once you have validated your choice click and the \"show\" button, it "
+#~ "will open the number of boxes you chose and you will see whether or the "
+#~ "bomb is one of them."
+#~ msgstr ""
+#~ "Après avoir validé votre choix cliquez sur le bouton \"Montrer\", cela va "
+#~ "ouvrir le nombre de cases choisi et vous pourrez alors voir si la bombe "
+#~ "est dans l'une de ces cases ou non."
+
+#~ msgid ""
+#~ "The table below summarizes the results of your decisions in the "
+#~ "%(num_rounds)s rounds played."
+#~ msgstr ""
+#~ "Le tableau ci-dessous récapitules les résultats de vos décisions dans les "
+#~ "%(num_rounds)s périodes du jeu."
+
+#~ msgid "Round History"
+#~ msgstr "Historique de la période"
+
+#~ msgid "Round No."
+#~ msgstr "Période"
+
+#~ msgid "No. of Boxes Collected"
+#~ msgstr "Nb. de cases ouvertes"
+
+#~ msgid "Bomb Collected"
+#~ msgstr "Bombe"
+
+#~ msgid "Round Payoff"
+#~ msgstr "Gain de la période"
+
+#~ msgid "Yes"
+#~ msgstr "Oui"
+
+#~ msgid "No"
+#~ msgstr "Non"
+
+#~ msgid ""
+#~ "For your payment, round number %(round_to_pay)s was randomly chosen. <br/"
+#~ "> Thus, your final payoff in this task amounts to %(total_payoff)s."
+#~ msgstr ""
+#~ "C'est la période %(round_to_pay)s qui a été tirée au sort pour votre "
+#~ "rémunération.<br/>Votre gain est donc de %(total_payoff)s."
+
+#~ msgid ""
+#~ "Your final payoff is determined by the sum of all payoffs per round such "
+#~ "that you final payoff in this task amounts to %(total_payoff)s."
+#~ msgstr ""
+#~ "Votre gain final est déterminé par la somme de votre gain à chaque "
+#~ "période, donc votre gain final est de %(total_payoff)s."

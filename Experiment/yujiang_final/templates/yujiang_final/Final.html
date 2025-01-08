@@ -1,0 +1,31 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Fin de l'expérience" %}
+{% endblock %}
+
+{% block content %}
+
+    {% include "yujiang_final/FinalTemplate.html" %}
+    <p class="mb-2">
+        <label for="id_comments">
+        {% trans "Vous pouvez écrire des commentaires sur l'expérience dans la zone ci-dessous. Pensez ensuite à cliquer sur le bouton Enregistrer" %}
+            </label>
+    </p>
+    <textarea rows="7" name="comments" style="width: 100%" id="id_comments" class="mb-3"></textarea>
+
+    <button class="btn btn-primary">{% trans "Enregistrer" %}</button>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

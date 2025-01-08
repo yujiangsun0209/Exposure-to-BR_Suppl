@@ -1,0 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-18 16:23+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: models.py:29
+msgid "0 -- Peur du risque"
+msgstr ""
+
+#: models.py:31
+msgid "10 -- Prêt à prendre des risques"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:6
+#: templates/risque_declare/RISKGeneral.html:6
+msgid "Positionnement vis-à-vis de la prise de risque"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:13
+msgid ""
+"Les personnes peuvent se comporter de façon différente selon les situations. "
+"Comment évaluez-vous votre propension à prendre des risques dans les "
+"situations suivantes?"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:26
+msgid "En conduisant"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:30
+msgid "Dans les investissements financiers"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:34
+msgid "Pendant les loisirs et le sport"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:38
+msgid "Dans votre travail"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:42
+msgid "Avec votre santé"
+msgstr ""
+
+#: templates/risque_declare/RISKDetaille.html:46
+msgid "Votre confiance dans les autres"
+msgstr ""
+
+#: templates/risque_declare/RISKGeneral.html:14
+msgid ""
+"Comment vous voyez-vous? Etes-vous généralement une personne qui prend des "
+"risques ou essayez-vous de les éviter?"
+msgstr ""
+
+#: templates/risque_declare/RISKGeneral.html:23
+msgid ""
+"Veuillez sélectionner la valeur qui vous correspond le plus dans l'échelle "
+"ci-dessous, sachant que 0 signifie \"Peur du risque\" et 10 signifie \"Prêt "
+"à prendre des risques\"."
+msgstr ""

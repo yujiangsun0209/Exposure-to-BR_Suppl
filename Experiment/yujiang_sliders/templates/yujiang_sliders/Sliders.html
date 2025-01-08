@@ -1,0 +1,169 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+    {% blocktrans trimmed with round_number=player.round_number num_rounds=Constants.num_rounds %}
+    Page {{ round_number }} of {{ num_rounds }}
+    {% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-light mb-3">
+        <div class="card-body">
+            <p>
+                <b>{% trans "Remind" %} :</b>
+                <br>
+                {% blocktrans trimmed %}
+                You are given a number and a slider,
+                and you need to use your mouse to click and drag the slider to precisely the point indicated by the given number in bold.
+                Once you move the slider, instant feedback will appear below the slider bar that you are working on.
+                Make sure the feedback number matches the given <b>number</b> in bold.
+                Once it is done, please move to the next slider.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+
+    <b> Slider 1:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.0 }}</b>
+        <input type="range" name="slider1" style="width:800px" min="0" max="100" id="slider1"/> <br>
+        <p id="feedback1"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider1]').on('input', function() {
+                    document.getElementById("feedback1").innerHTML = `Le curseur 1 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 2:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.1 }}</b>
+        <input type="range" name="slider2" style="width:800px" min="0" max="100" id="slider2"/> <br>
+        <p id="feedback2"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider2]').on('input', function() {
+                    document.getElementById("feedback2").innerHTML = `Le curseur 2 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 3:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.2 }}</b>
+        <input type="range" name="slider3" style="width:800px" min="0" max="100" id="slider3"/> <br>
+        <p id="feedback3"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider3]').on('input', function() {
+                    document.getElementById("feedback3").innerHTML = `Le curseur 3 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 4:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.3 }}</b>
+        <input type="range" name="slider4" style="width:800px" min="0" max="100" id="slider4"/> <br>
+        <p id="feedback4"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider4]').on('input', function() {
+                    document.getElementById("feedback4").innerHTML = `Le curseur 4 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 5:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.4 }}</b>
+        <input type="range" name="slider5" style="width:800px" min="0" max="100" id="slider5"/> <br>
+        <p id="feedback5"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider5]').on('input', function() {
+                    document.getElementById("feedback5").innerHTML = `Le curseur 5 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 6:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.5 }}</b>
+        <input type="range" name="slider6" style="width:800px" min="0" max="100" id="slider6"/> <br>
+        <p id="feedback6"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider6]').on('input', function() {
+                    document.getElementById("feedback6").innerHTML = `Le curseur 6 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 7:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.6 }}</b>
+        <input type="range" name="slider7" style="width:800px" min="0" max="100" id="slider7"/> <br>
+        <p id="feedback7"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider7]').on('input', function() {
+                    document.getElementById("feedback7").innerHTML = `Le curseur 7 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 8:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.7 }}</b>
+        <input type="range" name="slider8" style="width:800px" min="0" max="100" id="slider8"/> <br>
+        <p id="feedback8"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider8]').on('input', function() {
+                    document.getElementById("feedback8").innerHTML = `Le curseur 8 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 9:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.8 }}</b>
+        <input type="range" name="slider9" style="width:800px" min="0" max="100" id="slider9"/> <br>
+        <p id="feedback9"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider9]').on('input', function() {
+                    document.getElementById("feedback9").innerHTML = `Le curseur 9 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    <b> Slider 10:</b> <br>
+        {% trans "Please set this Slider to" %} <b>{{ slider_goals_this_round.9 }}</b>
+        <input type="range" name="slider10" style="width:800px" min="0" max="100" id="slider10" /><br>
+        <p id="feedback10"> <br></p>
+        <script>
+            $(document).ready(function () {
+                $('input[name=slider10]').on('input', function() {
+                    document.getElementById("feedback10").innerHTML = `Le curseur 10 est sur `+$(this).val()+'.';
+                });
+            });
+        </script>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function fill_auto(){
+        const the_sliders = document.querySelectorAll("input[type=range]");
+        for (let i=0; i<the_sliders.length; i++){
+            the_sliders[i].value = js_vars.slider_goals_this_round[i];
+        }
+        setTimeout(function (){
+            document.querySelector("form").submit();
+        }, 2000)
+    }
+
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

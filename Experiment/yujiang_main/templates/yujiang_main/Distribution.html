@@ -1,0 +1,66 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Part 1" %}
+{% endblock %} 
+
+{% block content %}
+<h5 class="mb-3">{% trans "Task 2 - Decision" %}</h5>
+<div class="text-right mb-3">
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_content">{% trans "Read again the instructions" %}</button>
+</div>
+
+    <div class="card bg-light text-justify mb-3">
+        <div class="card-body">
+            <p>
+                {% blocktrans trimmed with endowment=Constants.endowment %}
+                As Participant 1, out of these additional {{ endowment }},
+                how much would you like to send to Participant 2?
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+
+    {% formfields %}
+
+    <p>
+        {% if subsession.treatment == Constants.one_sided_dictator %}
+            {% blocktrans trimmed %}
+                After clicking the "Next" button below,
+                    a fairly-made die will then be rolled for you, and its result will be given at the end of experiment.
+            {% endblocktrans %}
+        {% elif subsession.treatment == Constants.one_sided_recipient %}
+            {% blocktrans trimmed %}
+                After clicking the "Next" button below,
+                a fairly-made die will then be rolled for your counterpart (Participant 2), and its result will be given at the end of experiment.
+            {% endblocktrans %}
+        {% elif subsession.treatment == Constants.common_sym %}
+            {% blocktrans trimmed %}
+                After clicking the "Next" button below,
+                a fairly-made die will then be rolled for both of you, and its result will be given at the end of experiment.
+        {% endblocktrans %}
+        {% elif subsession.treatment == Constants.common_indep %}
+            {% blocktrans trimmed %}
+                After clicking the "Next" button below,
+                Two fairly-made dice will be separately rolled, and their results will be given at the end of experiment.
+            {% endblocktrans %}
+        {% endif %}
+    </p>
+
+    {% next_button %}
+
+{% include "global/TemplateModal.html" with title="Instructions" content="yujiang_main/InstructionsTemplate.html" %}
+
+{% endblock %} 
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

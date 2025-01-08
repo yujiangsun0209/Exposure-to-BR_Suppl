@@ -1,0 +1,42 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Part 1" %}
+{% endblock %}
+
+{% block content %}
+<h5 class="mb-3">{% trans "Task 2 - Understanding questionnaire" %}</h5>
+
+<div class="text-right mb-3">
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_content">{% trans "Read again the instructions" %}</button>
+</div>
+
+    <div class="card bg-light text-justify mb-3">
+        <div class="card-body">
+            <p>
+                {% blocktrans trimmed %}
+                    Here is an exercise to check if you understand the instruction well.
+                    Please answer the following questions given the scenario below.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+
+    {% formfields %}
+
+    {% next_button %}
+
+{% include "global/TemplateModal.html" with title="Instructions" content="yujiang_main/InstructionsTemplate.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

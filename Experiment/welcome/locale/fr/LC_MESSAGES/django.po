@@ -1,0 +1,37 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-31 21:18+0200\n"
+"PO-Revision-Date: 2023-05-31 21:18+0200\n"
+"Last-Translator: Dimitri DUBOIS <dimitri.dubois@umontpellier.fr>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: templates/welcome/Welcome.html:6
+msgid "Bienvenue au Laboratoire d'Economie Expérimentale de Montpellier"
+msgstr ""
+
+#: templates/welcome/Welcome.html:26
+msgid ""
+"L'expérience à laquelle vous allez participer est destinée à l'étude de la "
+"prise de décision. Nous vous demandons de lire attentivement les "
+"instructions, elles doivent vous permettre de bien comprendre l'expérience. "
+"<br> Toutes vos décisions seront traitées de façon anonyme. <br> A partir de "
+"maintenant nous vous demandons de ne plus parler. Si vous avez une question "
+"levez la main et un expérimentateur viendra vous répondre en privé."
+msgstr ""
+
+#: templates/welcome/Welcome.html:39
+msgid "I've read and I accept the conditions of the experiment"
+msgstr "J'ai lu et j'accepte les conditions de l'expérience"

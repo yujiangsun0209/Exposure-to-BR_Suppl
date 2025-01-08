@@ -1,0 +1,20 @@
+{% load otree static %}
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Joueur</th>
+        <th>Poste</th>
+        <th>Gain</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in players_infos %}
+    <tr>
+        <td>p{{ row.joueur }}</td>
+        <td>{{ row.label }}</td>
+        <td>{{ row.payoff }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,67 @@
+{% load otree %}
+{% load i18n %}
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+       <p>
+           {% blocktrans trimmed %}
+                In this task, each of you will be paired with another different player as your counterpart. You will not be told who
+                your counterpart is either during or after the experiment, and also, your counterpart will not be told who you
+                are either during or after the experiment. One of you will be randomly assigned as Participant 1, and the other as
+                Participant 2. Before making a decision, you will learn your role.
+           {% endblocktrans %}
+       </p>
+       <p>
+           {% blocktrans trimmed with endowment=Constants.endowment %}
+                The task is conducted as follows: an additional wealth of {{endowment}} has been provisionally allocated
+                to each pair of players, and Participant 1 can decide how to split these {{endowment}} between herself or
+                himself and Participant 2. To do this, Participant 1 must decide how much she or he would like to send to
+                Participant 2.
+           {% endblocktrans %}
+       </p>
+       <p>
+           {% if subsession.treatment == Constants.one_sided_dictator %}
+                {% blocktrans trimmed with magnitude_BR=Constants.magnitude_BR %}
+                    Once Participant 1 makes her or his decision, the server will roll a fair die (i.e., hexahedron).
+                    The result of this die-rolling will only affect Participant 1's payoff from Part 1 (not Participant 2's).<br>
+                    To be specific, if the die results in an odd number (i.e., 1 or 3 or 5), then Participant 1
+                    will lose {{ magnitude_BR }};
+                    However, if the die results in an even number (i.e., 2 or 4 or 6), then Participant 1 will gain
+                    {{ magnitude_BR }}.
+            {% endblocktrans %}
+
+           {% elif subsession.treatment == Constants.one_sided_recipient %}
+                {% blocktrans trimmed with magnitude_BR=Constants.magnitude_BR %}
+                    Once Participant 1 makes her or his decision, the server will roll a fair die (i.e., hexahedron).
+                    The result of this die-rolling will only affect Participant 2's payoff from Part 1 (not Participant 1's).<br>
+                    To be specific, if the die results in an odd number (i.e., 1 or 3 or 5), then Participant 2
+                    will lose {{ magnitude_BR }};
+                    However, if the die results in an even number (i.e., 2 or 4 or 6), then Participant 2 will gain
+                    {{ magnitude_BR }}.
+                {% endblocktrans %}
+
+           {% elif subsession.treatment == Constants.common_sym %}
+                {% blocktrans trimmed with magnitude_BR=Constants.magnitude_BR %}
+                    Once Participant 1 makes her or his decision, the server will roll a fair die (i.e., hexahedron).
+                    The result of this die-rolling will affect both Participant 1 and 2's payoffs from Part 1.<br>
+                    To be specific, if the die results in an odd number (i.e., 1 or 3 or 5), then both Participant 1 and 2
+                    will lose {{ magnitude_BR }};
+                    However, if the die results in an even number (i.e., 2 or 4 or 6), then both Participant 1 and 2 will
+                    gain {{ magnitude_BR }}.
+                {% endblocktrans %}
+
+           {% elif subsession.treatment == Constants.common_indep %}
+                {% blocktrans trimmed with endowment=Constants.endowment %}
+                    Once Participant 1 makes her or his decision, the server will separately roll two fair dice (i.e., hexahedrons).
+                    The result of this dice-rolling will correspondingly affect Participant 1 and 2's payoffs from Part 1.<br>
+                    To be specific, the result of the first die, call it "Die 1", affects Participant 1's payoff from Part 1,
+                    such that if Die 1 results in an odd number (i.e., 1 or 3 or 5), then Participant 1 will lose {{ endowment }};
+                    However, if Die 1 results in an even number (i.e., 2 or 4 or 6), then Participant 1 will gain {{ endowment }}.<br>
+                    Similarly, the result of the second die, call it "Die 2", affects Participant 2's payoff from Part 1,
+                    such that if Die 2 results in an odd number, then Participant 2 will lose {{ endowment }};
+                    However, if Die 2 results in an even number, then Participant 2 will gain {{ endowment }}.
+                {% endblocktrans %}
+           {% endif %}
+       </p>
+    </div>
+</div>

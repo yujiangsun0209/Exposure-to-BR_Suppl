@@ -1,0 +1,23 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Résultat" %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p class="card-text">
+            {{ participant.vars.SVO_txt_final }}
+        </p>
+    </div>
+</div>
+
+{% next_button %}
+
+{% endblock %}
+

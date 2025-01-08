@@ -1,0 +1,49 @@
+{% load otree %}
+{% load i18n %}
+
+<h4>Résultats</h4>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Code</th>
+        <th>Label</th>
+        <th>Group</th>
+        <th>Id in Group</th>
+        <th>Paid matrice</th>
+        <th>Choice</th>
+        <th>Payoff (ECU)</th>
+        <th>Payoff (€)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in infos_participants %}
+    <tr>
+        <td>{{ row.code }}</td>
+        <td>{{ row.label }}</td>
+        <td>{{ row.group }}</td>
+        <td>{{ row.id_in_group }}</td>
+        <td>{{ row.paid_matrice }}</td>
+        <td>{{ row.choice }}</td>
+        <td>{{ row.svo_payoff }} ECUs</td>
+        <td>{{ row.payoff|floatformat:2 }}€</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-5">Matrices</h4>
+{% for number, mat in matrices.items %}
+<table class="table table-bordered text-center mb-3" id="table_svo_{{number}}">
+    <tr>
+        <td rowspan="2" style="vertical-align: middle">{% trans "Répartition" %} {{number}}</td>
+        {% for v in mat.top %}
+        <td id="id_svo_{{number}}_{{ forloop.counter0 }}_top">{{ v }}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for v in mat.bottom %}
+        <td id="id_svo_{{number}}_{{ forloop.counter0 }}_bottom">{{ v }}</td>
+        {% endfor %}
+    </tr>
+</table>
+{% endfor %}

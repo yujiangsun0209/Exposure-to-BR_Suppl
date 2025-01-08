@@ -1,0 +1,27 @@
+{% load otree static %}
+{% load i18n %}
+
+
+<div class="card bg-light text-justify">
+    <div class="card-body">
+        <p>
+            Dans cette partie, vous allez voir à l'écran une matrice {{ num_rows }}x{{ num_cols }} contenant {{ num_boxes }}
+            cases.
+        </p>
+        <p>
+            Chacune des cases contient un lot de {{ box_value }} €, à l’exception d’une case qui contient une
+            bombe. Chaque case que vous ouvrez vous rapporte {{ box_value }} € si vous ne tombez pas sur la bombe. Si
+            par contre vous ouvrez la case qui contient la bombe, votre gain sera nul. Vous ne savez pas où est la bombe.
+            Vous savez simplement qu'une bombe peut-être derrière n'importe quelle case avec une égale probabilité.
+        </p>
+        <p>
+            Vous devez décider du nombre de cases que vous souhaitez ouvrir. Si vous ouvrez la case avec la bombe
+            celle-ci explose et vous gagnez 0 €. Sinon, vous gagnez {{ box_value }} € pour chaque case ouverte.
+        </p>
+<!--        <p>-->
+<!--            Après avoir validé votre choix cliquez sur le bouton "Montrer", cela va ouvrir le nombre de cases choisi-->
+<!--            et vous pourrez alors voir si la bombe est dans l'une de ces cases ou non.-->
+<!--        </p>-->
+    </div>
+</div>
+

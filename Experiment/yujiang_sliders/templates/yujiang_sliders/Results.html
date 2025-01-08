@@ -1,0 +1,74 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+   {% trans "Part 1" %}
+{% endblock %}
+
+{% block content %}
+<h5 class="mb-3">{% trans "Task 1 - Results" %}</h5>
+<div class="card text-justify bg-light mb-3">
+    <div class="card-body">
+        <p>
+            {% blocktrans trimmed %}
+            You finished Task 1, and your results from this task are shown below.
+            {% endblocktrans %}
+        </p>
+
+        <!--<h4 class="mb-2"> {% trans "History" %} </h4>-->
+        <table class="table table-sm text-center" style="width: 250px">
+            <tr>
+                <th>{% trans "Page" %}</th>
+                <th>{% trans "Number of sliders<br>correctly positioned" %}</th>
+            </tr>
+            {% for p in player_in_all_rounds %}
+                <tr>
+                    <td>{{ p.round_number }}</td>
+                    <td>{{ p.total_sliders_correct }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+        {% if total_sliders_correct >= Constants.requirement %}
+           <p class="mb-3">
+               {% blocktrans trimmed with flat_rate=Constants.flat_rate %}
+               You correctly positioned {{ total_sliders_correct }}  sliders overall,
+               and your payoff from this task is <b>{{ flat_rate }}</b>, which will be rewarded to you
+               at the beginning of Task 2.
+               {% endblocktrans %}
+           </p>
+           {% next_button %}
+
+        {% else %}
+           <p>
+               {% blocktrans trimmed with show_up_fee=Constants.show_up_fee requirement=Constants.requirement %}
+               Unfortunately, you only correctly positioned {{ total_sliders_correct }} slider(s) overall,
+               which is below the task requirement -- {{requirement}}.
+               Therefore, you will be given <b>{{ show_up_fee}}</b>,
+               and your participation shall be excluded from the rest of this experiment.
+               {% endblocktrans %}
+           </p>
+           <p>
+               {% blocktrans trimmed %}
+               We sincerely appreciate your participation. Please close the experiment now.
+               {% endblocktrans %}
+           </p>
+        {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}
+
+
+

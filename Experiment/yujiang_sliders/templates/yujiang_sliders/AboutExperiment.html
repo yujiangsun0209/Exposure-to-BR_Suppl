@@ -1,0 +1,41 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "About this experiment" %}
+{% endblock %}
+
+{% block content %}
+    <div class="card text-justify bg-light mb-3">
+        <div class="card-body">
+            <p>
+                {% blocktrans trimmed %}
+                In this experiment, you can earn a fair amount of money depending on the efforts and decisions you and others make.
+                Your final payment will be issued at the end of this experiment.
+                {% endblocktrans %}
+            </p>
+            <p>
+                {% blocktrans trimmed %}
+                This experiment consists of three parts, and each part consists of one (or more) task(s).
+                The detailed instruction for each task will be delivered to you once the previous task is finished.
+                Please read the instruction carefully before making any decision.
+                Once your decision is made, no withdrawal is allowed.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

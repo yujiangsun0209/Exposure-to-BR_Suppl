@@ -1,0 +1,41 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Part 1" %}
+{% endblock %}
+
+{% block content %}
+    <h5 class="mb-3">{% trans "Task 2" %}</h5>
+    <div class="card bg-light text-justify mb-3">
+        <div class="card-body">
+            <p>
+                {% blocktrans trimmed with flat_rate=Constants.flat_rate %}
+                Now you have {{ flat_rate }} at hand that you earned from your previous task.
+                {% endblocktrans %}
+            </p>
+            {% if treatment != Constants.baseline %}
+            <p>
+                {% blocktrans trimmed %}
+                You will see the instruction for Task 2 on the next page. We suggest you read it carefully.
+                To check whether you understand the instruction well enough, we need you to answer some questions before entering Task 2.
+                The correction page will appear after the question page.
+                {% endblocktrans %}
+            </p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% next_button %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

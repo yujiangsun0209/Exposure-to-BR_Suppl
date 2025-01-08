@@ -1,0 +1,35 @@
+{% load otree %}
+{% load i18n %}
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{% trans "Part 1" %}</h5>
+        {{ participant.vars.yujiang_main_txt_final }}
+    </div>
+</div>
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{% trans "Part 2 - Task 1" %}</h5>
+        {{ participant.vars.yujiang_bret_txt_final }}
+    </div>
+</div>
+
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{% trans "Part 2 - Task 2" %}</h5>
+        {{ participant.vars.yujiang_svo_txt_final }}
+    </div>
+</div>
+
+<div class="card bg-info text-justify mb-3">
+    <div class="card-body">
+        <p>
+            {% blocktrans trimmed with selected_task=player.part2_selected_task payoff=player.payoff %}
+            This is Task {{selected_task}} that has been randomly selected to be paid for Part 2.<br>
+            Your payoff for this experiment is {{ payoff }}.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+

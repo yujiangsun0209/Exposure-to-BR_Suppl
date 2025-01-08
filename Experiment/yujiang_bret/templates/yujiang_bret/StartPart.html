@@ -1,0 +1,37 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Part 2" %}
+{% endblock %}
+
+{% block content %}
+<div class="card text-justify bg-light mb-3">
+    <div class="card-body">
+        <p>
+            {% blocktrans trimmed %}
+            Welcome to Part 2.
+            Your decisions in this part will not affect your payoff from Part 1. <br>
+            This part is composed of 2 tasks. One
+            of them will be randomly selected to be paid. The payoff of the selected part will be added to your payoff
+            from part 1.<br>
+            Please click the "Next" bottom to see the instruction for Task 1 of this part.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

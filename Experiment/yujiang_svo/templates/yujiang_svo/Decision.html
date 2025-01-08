@@ -1,0 +1,88 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Part 2" %}
+{% endblock %}
+
+{% block content %}
+
+<h5 class="mb-3">{% trans "Task 2" %}</h5>
+
+{% include "yujiang_svo/InstructionsTemplate.html" %}
+
+{% for number, mat in matrices.items %}
+<h4>{% trans "Répartition" %} {{ number }}</h4>
+<table class="table table-bordered text-center mb-3" id="table_svo_{{number}}">
+    <tr>
+        <td>{% trans "Vous recevez" %}</td>
+        {% for v in mat.top %}
+        <td id="id_svo_{{number}}_{{ forloop.counter0 }}_top">{{ v }}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td></td>
+        {% for v in mat.top %}
+        <td id="id_svo_{{number}}_{{ forloop.counter0 }}_center">
+            <input type="radio" name="svo_{{number}}" value="{{ forloop.counter0 }}" id="id_svo_{{number}}_{{ forloop.counter0 }}" onclick="draw_cells(this);">
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td>{% trans "L'autre reçoit" %}</td>
+        {% for v in mat.bottom %}
+        <td id="id_svo_{{number}}_{{ forloop.counter0 }}_bottom">{{ v }}</td>
+        {% endfor %}
+    </tr>
+</table>
+{% endfor %}
+
+<button type="button" class="btn btn-primary" onclick="valider();">Suivant</button>
+
+<p id="error_message" class="text-danger mt-3"></p>
+
+{% include "global/TemplateModal.html" with title="Instructions" content="yujiang_svo/InstructionsTemplate.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+
+    function valider() {
+        let nb_matrices = Object.keys(js_vars["matrices"]).length;
+        for (let i=1; i < nb_matrices + 1; i++) {
+            if (document.querySelector("input[name=svo_" + i + "]:checked") === null) {
+                document.querySelector("#error_message").innerHTML = "Vous devez faire un choix pour la répartition " + i;
+                setTimeout(function (){
+                    document.querySelector("#error_message").innerHTML = "";
+                }, 2000)
+                return false
+            }
+        }
+        document.querySelector("form").submit();
+    }
+
+    function draw_cells(the_input) {
+        let matrice = the_input.name;
+        let choice = the_input.value;
+        let the_td = document.querySelectorAll("table#table_" + matrice + " td");
+
+        for (let i=0; i<the_td.length; i++) {
+            let current_td = the_td[i];
+            if (current_td.id === "id_" + matrice + "_" + choice + "_top" ||
+                current_td.id === "id_" + matrice + "_" + choice + "_center" ||
+                current_td.id === "id_" + matrice + "_" + choice + "_bottom") {
+                current_td.style.backgroundColor = "#E8E8E8";
+            } else current_td.style.backgroundColor = "white";
+        }
+    }
+
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}
+

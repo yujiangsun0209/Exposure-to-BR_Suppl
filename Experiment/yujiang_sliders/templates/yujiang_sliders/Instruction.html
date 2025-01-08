@@ -1,0 +1,46 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Part 1" %}
+{% endblock %}
+
+{% block content %}
+<h5>{% trans "Task 1 - Instructions" %}</h5>
+<div class="card text-justify bg-light mb-3">
+    <div class="card-body">
+        <p>
+            {% blocktrans trimmed %}
+            In Task 1, you are asked to finish a series of positioning tasks.
+            Specifically, you will be given 20 sets of numbers and sliders,
+            and you need to use your mouse to click and drag the slider to precisely the point indicated by the given number in bold.
+            Once you move the slider, instant feedback will appear below the slider bar that you are working on.
+            Make sure the feedback number matches the given number in bold.
+            Once it is done, please move to the next slider.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans trimmed with flat=Constants.flat_rate show_up=Constants.show_up_fee requirement=Constants.requirement %}
+            You will be given 20 pairs of numbers and sliders divided into two pages (10 pairs on each page).
+            <b>The goal is to position at least {{requirement}} sliders in total correctly, within {{time_given}} minutes.</b>
+            Only those who accomplish this task will be rewarded {{ flat }} at the beginning of Task 2.
+            However, those who fail this task are not allowed to continue with the rest parts (i.e., Part 2 and 3),
+            and only a minimal show-up fee of {{ show_up }} will be granted to them.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+    {% next_button %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

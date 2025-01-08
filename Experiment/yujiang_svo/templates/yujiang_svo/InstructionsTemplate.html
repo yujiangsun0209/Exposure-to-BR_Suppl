@@ -1,0 +1,27 @@
+{% load otree static %}
+{% load i18n %}
+
+<div class="card text-justify bg-light mb-3">
+    <div class="card-body">
+        <p>
+            {% blocktrans trimmed with num_decisions=matrices|length conversion=Constants.conversion_rate %}
+            Cette tâche comporte {{ num_decisions }} décisions. Chaque décision consiste à répartir une somme d'argent
+            entre vous et une personne participant à l'expérience.
+            Vous ne pouvez pas identifier l'autre personne et elle ne peut pas vous identifier. Il n'y a ni bonne ni
+            mauvaise réponse, et les données seront traitées de manière anonyme. Pour chacune des
+            {{ num_decisions }} décisions, indiquez la répartition que vous préférez en cliquant sur le bouton
+            correspondant. Les valeurs dans les tableaux sont exprimées en monnaie expérimentale, l'ECU. Le taux
+            de conversion est 1 ECU = {{ conversion }} Euros.
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans trimmed %}
+            Le serveur va former des paires aléatoires. Au sein de chaque paire, il y aura
+            deux tirages au sort successifs. Un premier tirage déterminera la répartition qui sera utilisée pour la
+            rémunération. Ensuite, un second tirage sélectionnera une des deux personnes de la paire
+            pour que son choix de répartition s'applique à la paire, donc soit c'est votre choix qui
+            s'appliquera, soit ce sera le choix de l'autre personne de votre paire.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>

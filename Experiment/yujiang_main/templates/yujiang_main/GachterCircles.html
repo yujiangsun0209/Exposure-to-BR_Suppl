@@ -1,0 +1,101 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Question" %}
+{% endblock %}
+
+{% block content %}
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <p>
+            {% blocktrans trimmed %}
+            In the following figure, we ask you to consider which of these pairs of circles best describes your
+            relationship with Participant X. The letter "X" serves as a placeholder for your counterpart in the previous
+            task - that is, you should think of Participant X as Participant 2 if you were Participant 1, or you should
+            think of Participant X as Participant 1 if you were Participant 2. Please indicate to what extent you and
+            Participant X are connected by selecting the appropriate pair of circles.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+    <div class="row mb-3">
+        <div class="col-4 with_img text-center" id="rel_1">
+            <img class="img-fluid mt-2 mb-1" id="rel_1_img" src="{% static 'yujiang_main/1.png' %}" alt="Relation 1" style="height: 120px" onclick="set_selected('rel_1')">
+        </div>
+        <div class="col-4 with_img text-center" id="rel_2">
+            <img class="img-fluid mt-2 mb-1" id="rel_2_img" src="{% static 'yujiang_main/2.png' %}" alt="Relation 2" style="height: 120px" onclick="set_selected('rel_2')">
+        </div>
+        <div class="col-4 with_img text-center" id="rel_3">
+            <img class="img-fluid mt-2 mb-1" id="rel_3_img" src="{% static 'yujiang_main/3.png' %}" alt="Relation 3" style="height: 120px" onclick="set_selected('rel_3')">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-3 with_img text-center" id="rel_4">
+            <img class="img-fluid mt-2 mb-1" id="rel_4_img" src="{% static 'yujiang_main/4.png' %}" alt="Relation 4" style="height: 120px" onclick="set_selected('rel_4')">
+        </div>
+        <div class="col-3 with_img text-center" id="rel_5">
+            <img class="img-fluid mt-2 mb-1" id="rel_5_img" src="{% static 'yujiang_main/5.png' %}" alt="Relation 5" style="height: 120px" onclick="set_selected('rel_5')">
+        </div>
+        <div class="col-3 with_img text-center" id="rel_6">
+            <img class="img-fluid mt-2 mb-1" id="rel_6_img" src="{% static 'yujiang_main/6.png' %}" alt="Relation 6" style="height: 120px" onclick="set_selected('rel_6')">
+        </div>
+        <div class="col-3 with_img text-center" id="rel_7">
+            <img class="img-fluid mt-2 mb-1" id="rel_7_img" src="{% static 'yujiang_main/7.png' %}" alt="Relation 7" style="height: 120px" onclick="set_selected('rel_7')">
+        </div>
+    </div>
+
+
+    {% next_button %}
+
+    <input type="hidden" name="gachter_circles" id="id_gachter_circles" value="">
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let btn_next = document.querySelector(".otree-btn-next");
+    btn_next.disabled = true;
+
+    function set_selected(the_div) {
+        let all_div_with_img = document.querySelectorAll("div.with_img");
+        let selected_div = document.querySelector(`#${the_div}`);
+        for (let d of all_div_with_img) {
+            d.classList.remove("bg-info");
+            if (d === selected_div) {
+                d.classList.add("bg-info");
+                document.querySelector("input[name=gachter_circles]").value = the_div.split("_")[1];
+            }
+        }
+        if (btn_next.disabled)
+            btn_next.disabled = false;
+    }
+
+    function fill_auto () {
+        // Radio buttons
+        let myradios = document.querySelectorAll("input[type=radio]");
+        let radio_names = [];
+        for (let r of myradios) {
+            if (!radio_names.includes(r.name))
+                radio_names.push(r.name)
+        }
+        for (let r of radio_names) {
+            let radios = document.querySelectorAll(`input[name=${r}]`);
+            let selected = Math.floor(Math.random() * radios.length);
+            radios[selected].click();
+        }
+        let selected_img = Math.floor(Math.random() * 6) + 1;
+        document.querySelector(`#rel_${selected_img}_img`).click();
+
+        setTimeout(() => {btn_next.click();}, 2000);
+    }
+
+    window.onload = function() {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

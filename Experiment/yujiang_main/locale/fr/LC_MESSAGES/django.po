@@ -1,0 +1,895 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: traduction_dict\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-31 21:06+0200\n"
+"PO-Revision-Date: 2023-05-31 21:07+0200\n"
+"Last-Translator: Dimitri DUBOIS <dimitri.dubois@umontpellier.fr>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: models.py:65
+msgid "I decide to send "
+msgstr "Je décide d'envoyer "
+
+#: models.py:140
+msgid ""
+"Suppose Participant 1 sent €5, and the die results in 1. Including the {} "
+"earned in Task 1, how much did each of them ended up with in Part 1?"
+msgstr ""
+"Supposons que le joueur 1 envoie 5 €. Le dé affiche le chiffre 1. En "
+"incluant les {} gagnés pour la tâche 1, quel est le gain de chacun pour la "
+"partie 1?"
+
+#: models.py:143 pages.py:54
+msgid "Participant 1 earned €25, and Participant 2 earned €5"
+msgstr "Le joueur 1 gagne 25 € et le joueur 2 gagne 5 €"
+
+#: models.py:144 pages.py:58
+msgid "Participant 1 earned €15, and Participant 2 earned €5"
+msgstr "Le joueur 1 gagne 15 € et le joueur 2 gagne 5 €"
+
+#: models.py:145 models.py:162 pages.py:50 pages.py:56
+msgid "Participant 1 earned €15, and Participant 2 earned €15"
+msgstr "Le joueur 1 gagne 15 € et le joueur 2 gagne 15 €"
+
+#: models.py:148
+msgid ""
+"Suppose Participant 1 sent €10, and the die results in 4. Including the {} "
+"earned in Task 1, how much did each of them ended up with in Part 1?"
+msgstr ""
+"Supposons que le joueur 1 envoie 10 €. Le dé affiche le chiffre 4. En "
+"incluant les {} gagnés pour la tâche 1, quel est le gain de chacun pour la "
+"partie 1?"
+
+#: models.py:152 pages.py:55
+msgid "Participant 1 earned €20, and Participant 2 earned €30"
+msgstr "Le joueur 1 gagne 20 € et le joueur 2 gagne 30 €"
+
+#: models.py:153 pages.py:59
+msgid "Participant 1 earned €30, and Participant 2 earned €30"
+msgstr "Le joueur 1 gagne 30 € et le joueur 2 gagne 30 €"
+
+#: models.py:154 pages.py:51
+msgid "Participant 1 earned €30, and Participant 2 earned €20"
+msgstr "Le joueur 1 gagne 30 € et le joueur 2 gagne 20 €"
+
+#: models.py:157
+msgid ""
+"Suppose Participant 1 sent €15, and the die results in 5. Including the {} "
+"earned in Task 1, how much did each of them ended up with in Part 1?"
+msgstr ""
+"Supposons que le joueur 1 envoie 15 €. Le dé affiche le chiffre 5. En "
+"incluant les {} gagnés pour la tâche 1, quel est le gain de chacun pour la "
+"partie 1?"
+
+#: models.py:161 pages.py:60 pages.py:64
+msgid "Participant 1 earned €5, and Participant 2 earned €15"
+msgstr "Le joueur 1 gagne 5 € et le joueur 2 gagne 15 €"
+
+#: models.py:163 pages.py:52
+msgid "Participant 1 earned €5, and Participant 2 earned €25"
+msgstr "Le joueur 1 gagne 5 € et le joueur 2 gagne 25 €"
+
+#: models.py:212
+msgid ""
+"You decided to send {} to Participant 2, and kept {} to yourself. Therefore, "
+"your payoff from Part 1 is ({} + {} - {}) {}."
+msgstr ""
+"Vous avez décidé d'envoyer {} au joueur 2 et avez gardé {} pour vous. Par "
+"conséquent, votre gain de la partie 1 est ({} + {} - {}) {}."
+
+#: models.py:216 models.py:245
+msgid ""
+"As to your counterpart (Participant 2), her or his payoff from Part 1 is {}."
+msgstr "Le gain du joueur 2 pour la Partie 1 est {}."
+
+#: models.py:219
+msgid ""
+"Since Participant 1 decided to send you {}. Therefore, your payoff from Part "
+"1 is ({} + {}) {}."
+msgstr ""
+"Le joueur 1 a décidé de vous envoyer {}. Par conséquent, votre gain de la "
+"partie 1 est ({} + {}) {}."
+
+#: models.py:222 models.py:288
+msgid ""
+"As to your counterpart (Participant 1), her or his payoff from Part 1 is {}."
+msgstr "Le gain du joueur 1 pour la Partie 1 est {}."
+
+#: models.py:228
+msgid ""
+"You decided to send {} to Participant 2, and kept {} to yourself. Since the "
+"die resulted in {},"
+msgstr ""
+"Vous avez décidé d'envoyer {} au joueur 2 et avez gardé {} pour vous. Comme "
+"le résultat du lancer de dé est {},"
+
+#: models.py:234
+msgid ""
+"your payoff from Part 1 is reduced by {}. Therefore, your payoff from Part 1 "
+"is ({} + {} - {} - {}) {}."
+msgstr ""
+"votre gain a été réduit de {}. Par conséquent, votre gain de la partie 1 est "
+"({} + {} - {} - {}) {}."
+
+#: models.py:240
+msgid ""
+"your payoff from Part 1 is increased by {}. Therefore, your payoff from Part "
+"1 is ({} + {} - {} + {}) {}."
+msgstr ""
+"votre gain a été augmenté de {}. Par conséquent, votre gain de la partie 1 "
+"est ({} + {} - {} + {}) {}."
+
+#: models.py:248
+msgid ""
+"Your payoff from Part 1 is ({} + {}) {}, as your counterpart (Participant 1) "
+"sent {} to you."
+msgstr ""
+"Votre gain de la partie 1 est ({} + {}) {}, car le joueur 1 vous a envoyé {}."
+
+#: models.py:251
+msgid ""
+"However, the die resulted in {}, so Participant 1's payoff from Part 1 was "
+"reduced by {}, that is {}."
+msgstr ""
+"Cependant, le résultat du lancé de dé est {}, donc le gain du joueur 1 pour "
+"la partie 1 a été réduit de {}, c'est-à-dire {}."
+
+#: models.py:256
+msgid ""
+"Besides, the die resulted in {}, so Participant 1's payoff payoff from Part "
+"1 was increased by {}, that is {}."
+msgstr ""
+"De plus, le résultat du lancé de dé est {}, donc le gain du joueur 1 pour la "
+"partie 1 a été augmenté de {}, c'est-à-dire de {}."
+
+#: models.py:263
+msgid ""
+"You decided to send {} to Participant 2, and kept {} to yourself. Therefore, "
+"your payoff from Part 1 is ({} + {} - {}) {}. As to your counterpart "
+"(Participant 2), since the die resulted in {},"
+msgstr ""
+"Vous avez décidé d'envoyer {} au joueur 2 et avez gardé {} pour vous. Par "
+"conséquent, votre gain de la partie 1 est ({} + {} - {}) {}. Puisque le "
+"résultat du lancé de dé est {}, pour le joueur 2,"
+
+#: models.py:269
+msgid "her or his payoff from Part 1 was reduced by {}, that is {}."
+msgstr "son gain de la partie 1 a été réduit de {}, c'est-à-dire de {}."
+
+#: models.py:272
+msgid "her or his payoff from Part 1 was increased by {}, that is {}."
+msgstr "son gain de la partie 1 a été augmenté de {}, c'est-à-dire de {}."
+
+#: models.py:275
+msgid "Participant 1 sent you {}, and since the die resulted in {},"
+msgstr ""
+"Le joueur 1 vous a envoyé {}, et comme le résultat du lancé de dé est {},"
+
+#: models.py:278
+msgid "Your payoff from Part 1 is ({} + {} - {}) {}."
+msgstr "Votre gain de la partie 1 est ({} + {} - {}) {}."
+
+#: models.py:283
+msgid "Your payoff from Part 1 is ({} + {} + {}) {}."
+msgstr "Votre gain de la partie 1 est ({} + {} + {}) {}."
+
+#: models.py:293
+msgid "Since the die resulted in {},"
+msgstr "Comme le résultat du lancé de dé est {},"
+
+#: models.py:296
+#, python-brace-format
+msgid ""
+"your and your counterpart's (Participant 2's) payoff from Part 1 were both "
+"reduced by {0}. Besides, you decided to sent {1} to Participant 2. "
+"Therefore, your payoff from Part 1 is ({2} + {3} - {4} - {5}) {6}, and your "
+"counterpart (Participant 2) ended up with {7}."
+msgstr ""
+"pour la partie 1, vos gains ainsi que ceux du joueur 2, ont tous deux été "
+"réduits de {0}. En outre, vous avez décidé d'envoyer {1} au joueur 2. Par "
+"conséquent, votre gain de la partie 1 est ({2} + {3} - {4} - {5}) {6}, et le "
+"gain du joueur 2 est de {7}."
+
+#: models.py:304
+#, python-brace-format
+msgid ""
+"your and your counterpart's (Participant 2's) payoff from Part 1 were both "
+"increased by {0}. Besides, you decided to sent {1} to Participant 2. "
+"Therefore, your payoff from Part 1 is ({2} + {3} - {4} + {5}) {6}, and your "
+"counterpart (Participant 2) ended up with {7}."
+msgstr ""
+"pour la partie 1, vos gains ainsi que ceux du joueur 2, ont tous deux été "
+"augmentés de {0}. En outre, vous avez décidé d'envoyer {1} au joueur 2. Par "
+"conséquent, votre gain de la partie 1 est ({2} + {3} - {4} + {5}) {6}, et le "
+"gain du joueur 2 est de {7}."
+
+#: models.py:313
+#, python-brace-format
+msgid ""
+"your and your counterpart's (Participant 1's) payoff from Part 1 were both "
+"reduced by {0}. Besides, Participant 1 sent you {1}. Therefore, your payoff "
+"from Part 1 is ({2} + {3} - {4}) {5}, and your counterpart (Participant 1) "
+"ended up with {6}."
+msgstr ""
+"pour la partie 1, vos gains ainsi que ceux du joueur 1, ont tous deux été "
+"réduits de {0}. En outre, le joueur 1 vous a envoyé {1}. Par conséquent, "
+"votre gain de la partie 1 est ({2} + {3} - {4}) {5}, et le gain du joueur 1 "
+"est de {6}."
+
+#: models.py:320
+#, python-brace-format
+msgid ""
+"your and your counterpart's (Participant 1's) payoff from Part 1 were both "
+"increased by {0}. Besides, Participant 1 sent you {1}. Therefore, your "
+"payoff from Part 1 is ({2} + {3} + {4}) {5}, and your counterpart "
+"(Participant 1) ended up with {6}."
+msgstr ""
+"pour la partie 1, vos gains ainsi que ceux du joueur 1, ont tous deux été "
+"augmentés de {0}. En outre, le joueur 1 vous a envoyé {1}. Par conséquent, "
+"votre gain de la partie 1 est ({2} + {3} + {4}) {5}, et le gain du joueur 1 "
+"est de {6}."
+
+#: models.py:329
+msgid "Die 1 resulted in {} and Die 2 resulted in {}."
+msgstr "Le dé 1 affiche {} and le dé 2 affiche {}."
+
+#: models.py:331
+msgid "Since you sent {} to Participant 2, and according to the rule"
+msgstr "Puisque vous avez envoyé {} au joueur 2, et selon la règle"
+
+#: models.py:334
+msgid ""
+"your payoff from Part 1 was reduced by {}, that is ({} + {} - {} - {}) {}."
+msgstr ""
+"votre gain de la partie 1 a été réduit de {}, c'est-à-dire ({} + {} - {} - "
+"{}) {}."
+
+#: models.py:339
+msgid ""
+"your payoff from Part 1 was increased by {}, that is ({} + {} - {} + {}) {}."
+msgstr ""
+"votre gain de la partie 1 a été augmenté de {}, c'est-à-dire ({} + {} - {} + "
+"{}) {}."
+
+#: models.py:343
+msgid "And similarly, your counterpart (Participant 2) ended up with {}."
+msgstr "De même, le joueur 2 s'est retrouvé avec {}."
+
+#: models.py:346
+msgid "Since Participant 1 sent you {}, and according to the rule"
+msgstr "Puisque le joueur 1 vous a envoyé {}, et selon la règle"
+
+#: models.py:349
+#, python-brace-format
+msgid ""
+"your payoff from Part 1 was reduced by {0}, that is ({1} + {2} - {3}) {4}."
+msgstr ""
+"votre gain de la partie 1 a été réduit de {0}, c'est-à-dire ({1} + {2} - "
+"{3}) {4}."
+
+#: models.py:354
+#, python-brace-format
+msgid ""
+"your payoff from Part 1 was increased by {0}, that is ({1} + {2} + {3}) {4}."
+msgstr ""
+"votre gain de la partie 1 a été augmenté de {0}, c'est-à-dire ({1} + {2} + "
+"{3}) {4}."
+
+#: models.py:358
+msgid "And similarly, your counterpart (Participant 1) ended up with {}."
+msgstr "De même, le joueur 1 s'est retrouvé avec {}."
+
+#: pages.py:62
+msgid "Participant 1 earned €35, and Participant 2 earned €25"
+msgstr "Le joueur 1 gagne 35 € et le joueur 2 gagne 25 €"
+
+#: pages.py:63
+msgid "Participant 1 earned €30, and Participant 2 earned €10"
+msgstr "Le joueur 1 gagne 30 € et le joueur 2 gagne 10 €"
+
+#: templates/yujiang_main/AttentionCheck.html:6
+#: templates/yujiang_main/Distribution.html:6
+#: templates/yujiang_main/Instruction.html:6
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:6
+#: templates/yujiang_main/RoleAssignment.html:6
+#: templates/yujiang_main/StartTask2.html:6
+msgid "Part 1"
+msgstr "Partie 1"
+
+#: templates/yujiang_main/AttentionCheck.html:10
+msgid "Task 2 - Understanding questionnaire"
+msgstr "Tâche 2 - Questionnaire de compréhension"
+
+#: templates/yujiang_main/AttentionCheck.html:13
+#: templates/yujiang_main/Distribution.html:12
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:12
+#: templates/yujiang_main/RoleAssignment.html:12
+msgid "Read again the instructions"
+msgstr "Relire les instructions"
+
+#: templates/yujiang_main/AttentionCheck.html:19
+msgid ""
+"Here is an exercise to check if you understand the instruction well. Please "
+"answer the following questions given the scenario below."
+msgstr ""
+"Ce questionnaire a pour but de vérifier votre compréhension des règles de "
+"jeu. Veuillez répondre à chacune des questions suivantes."
+
+#: templates/yujiang_main/BePatient.html:6
+msgid "End of Part 1"
+msgstr "Fin de la partie 1"
+
+#: templates/yujiang_main/BePatient.html:13
+msgid ""
+"At this point, Participant 1 has made her or his choice. And also, a die has "
+"been rolled by the server.<br> However, please be patient. The results of "
+"Part 1 will be shown at the end of the experiment."
+msgstr ""
+"À ce stade, le joueur 1 a pris sa décision. Et aussi, un dé a été lancé par "
+"le serveur.<br> Cependant, soyez patient, car vos gains pour la partie 1 "
+"vous seront communiqués seulement à la fin de l'expérience."
+
+#: templates/yujiang_main/Distribution.html:10
+msgid "Task 2 - Decision"
+msgstr "Tâche 2 - Décision"
+
+#: templates/yujiang_main/Distribution.html:18
+#, python-format
+msgid ""
+"As Participant 1, out of these additional %(endowment)s, how much would you "
+"like to send to Participant 2?"
+msgstr ""
+"En tant que joueur 1, de ces %(endowment)s supplémentaires, combien "
+"souhaitez-vous envoyer au joueur 2 ?"
+
+#: templates/yujiang_main/Distribution.html:30
+msgid ""
+"After clicking the \"Next\" button below, a fairly-made die will then be "
+"rolled for you, and its result will be given at the end of experiment."
+msgstr ""
+"Après avoir cliqué sur le bouton \"Suivant\" ci-dessous, un dé équilibré "
+"sera lancé par l'ordinateur pour vous. Le résultat vous sera communiqué à la "
+"fin de l'expérience."
+
+#: templates/yujiang_main/Distribution.html:35
+msgid ""
+"After clicking the \"Next\" button below, a fairly-made die will then be "
+"rolled for your counterpart (Participant 2), and its result will be given at "
+"the end of experiment."
+msgstr ""
+"Après avoir cliqué sur le bouton \"Suivant\" ci-dessous, un dé équilibré "
+"sera lancé par l'ordinateur pour le joueur 2. Le résultat lui sera "
+"communiqué à la fin de l'expérience."
+
+#: templates/yujiang_main/Distribution.html:40
+msgid ""
+"After clicking the \"Next\" button below, a fairly-made die will then be "
+"rolled for both of you, and its result will be given at the end of "
+"experiment."
+msgstr ""
+"Après avoir cliqué sur le bouton \"Suivant\" ci-dessous, un dé équilibré "
+"sera lancé par l'ordinateur pour vous deux. Le résultat vous sera communiqué "
+"à la fin de l'expérience."
+
+#: templates/yujiang_main/Distribution.html:45
+msgid ""
+"After clicking the \"Next\" button below, Two fairly-made dice will be "
+"separately rolled, and their results will be given at the end of experiment."
+msgstr ""
+"Après avoir cliqué sur le bouton \"Suivant\" ci-dessous, un dé équilibré "
+"sera lancé séparément pour chacun des deux joueurs et leurs résultats seront "
+"communiqués à la fin de l'expérience."
+
+#: templates/yujiang_main/GachterCircles.html:6
+msgid "Question"
+msgstr "Question"
+
+#: templates/yujiang_main/GachterCircles.html:13
+msgid ""
+"In the following figure, we ask you to consider which of these pairs of "
+"circles best describes your relationship with Participant X. The letter "
+"\"X\" serves as a placeholder for your counterpart in the previous task - "
+"that is, you should think of Participant X as Participant 2 if you were "
+"Participant 1, or you should think of Participant X as Participant 1 if you "
+"were Participant 2. Please indicate to what extent you and Participant X are "
+"connected by selecting the appropriate pair of circles."
+msgstr ""
+"Dans la figure ci-dessous, nous vous demandons de déterminer la paire de "
+"cercles qui décrit le mieux votre relation avec X. La lettre \"X\" renvoie "
+"au participant avec lequel vous étiez apparié(e) dans la tâche que vous "
+"venez de terminer, c'est à dire le joueur 2 si vous étiez joueur 1 et le "
+"joueur 1 si vous étiez joueur 2. Merci d'indiquer dans quelle mesure vous et "
+"le participant X êtes connectés, en sélectionnant la paire de cercles "
+"correspondante."
+
+#: templates/yujiang_main/Instruction.html:10
+msgid "Task 2 - Instructions"
+msgstr "Tâche 2 - Instructions"
+
+#: templates/yujiang_main/InstructionsTemplate.html:7
+msgid ""
+"In this task, each of you will be paired with another different player as "
+"your counterpart. You will not be told who your counterpart is either during "
+"or after the experiment, and also, your counterpart will not be told who you "
+"are either during or after the experiment. One of you will be randomly "
+"assigned as Participant 1, and the other as Participant 2. Before making a "
+"decision, you will learn your role."
+msgstr ""
+"Pour cette tâche, chaque participant sera apparié à un autre participant "
+"présent dans cette salle. Vous ne connaitrez pas l'identité de la personne "
+"avec laquelle vous êtes apparié et cette personne ne connaîtra pas non plus "
+"votre identité. Dans chacune des paires, l'un des membres de la paire sera "
+"désigné comme étant le joueur 1 et l'autre comme étant le joueur 2. Avant de "
+"commencer, vous apprendrez si vous êtes joueur 1 ou joueur 2."
+
+#: templates/yujiang_main/InstructionsTemplate.html:15
+#, python-format
+msgid ""
+"The task is conducted as follows: an additional wealth of %(endowment)s has "
+"been provisionally allocated to each pair of players, and Participant 1 can "
+"decide how to split these %(endowment)s between herself or himself and "
+"Participant 2. To do this, Participant 1 must decide how much she or he "
+"would like to send to Participant 2."
+msgstr ""
+"La tâche se déroule de la manière suivante : une dotation supplémentaire de "
+"%(endowment)s a été allouée à chaque paire de joueur. Le joueur 1 doit "
+"décider comment répartir ce supplément de %(endowment)s entre lui et le "
+"joueur 2. Pour ce faire, le joueur 1 doit décider combien il envoie au "
+"joueur 2."
+
+#: templates/yujiang_main/InstructionsTemplate.html:24
+#, python-format
+msgid ""
+"Once Participant 1 makes her or his decision, the server will roll a fair "
+"die (i.e., hexahedron). The result of this die-rolling will only affect "
+"Participant 1's payoff from Part 1 (not Participant 2's).<br> To be "
+"specific, if the die results in an odd number (i.e., 1 or 3 or 5), then "
+"Participant 1 will lose %(magnitude_BR)s; However, if the die results in an "
+"even number (i.e., 2 or 4 or 6), then Participant 1 will gain "
+"%(magnitude_BR)s."
+msgstr ""
+"Une fois que le joueur 1 a pris sa décision, le serveur lancera un dé "
+"équilibré à 6 faces. Le résultat de ce lancer de dé n'affectera que le gain "
+"du joueur 1 pour la Partie 1 (pas celui du joueur 2).<br> Pour être précis, "
+"si le résultat du lancer de dé est un nombre impair (c'est-à-dire 1 ou 3 ou "
+"5), le joueur 1 perdra %(magnitude_BR)s ; si au contraire le résultat du "
+"lancer de dé est un nombre pair (c'est-à-dire 2 ou 4 ou 6), alors le joueur "
+"1 gagnera %(magnitude_BR)s."
+
+#: templates/yujiang_main/InstructionsTemplate.html:34
+#, python-format
+msgid ""
+"Once Participant 1 makes her or his decision, the server will roll a fair "
+"die (i.e., hexahedron). The result of this die-rolling will only affect "
+"Participant 2's payoff from Part 1 (not Participant 1's).<br> To be "
+"specific, if the die results in an odd number (i.e., 1 or 3 or 5), then "
+"Participant 2 will lose %(magnitude_BR)s; However, if the die results in an "
+"even number (i.e., 2 or 4 or 6), then Participant 2 will gain "
+"%(magnitude_BR)s."
+msgstr ""
+"Une fois que le joueur 1 a pris sa décision, le serveur lancera un dé "
+"équilibré à 6 faces. Le résultat de ce lancer de dé n'affectera que le gain "
+"du joueur 2 pour la Partie 1 (pas celui du joueur 1).<br> Pour être précis, "
+"si le résultat du lancer de dé est un nombre impair (c'est-à-dire 1 ou 3 ou "
+"5), le joueur 2 perdra %(magnitude_BR)s ; si au contraire le résultat du "
+"lancer de dé est un nombre pair (c'est-à-dire 2 ou 4 ou 6), alors le joueur "
+"2 gagnera %(magnitude_BR)s."
+
+#: templates/yujiang_main/InstructionsTemplate.html:44
+#, python-format
+msgid ""
+"Once Participant 1 makes her or his decision, the server will roll a fair "
+"die (i.e., hexahedron). The result of this die-rolling will affect both "
+"Participant 1 and 2's payoffs from Part 1.<br> To be specific, if the die "
+"results in an odd number (i.e., 1 or 3 or 5), then both Participant 1 and 2 "
+"will lose %(magnitude_BR)s; However, if the die results in an even number (i."
+"e., 2 or 4 or 6), then both Participant 1 and 2 will gain %(magnitude_BR)s."
+msgstr ""
+"Une fois que le joueur 1 a pris sa décision, le serveur lancera un dé "
+"équilibré à 6 faces. Le résultat de ce lancer de dé affectera le gain des "
+"deux joueurs pour la Partie 1.<br> Pour être précis, si le résultat du "
+"lancer de dé est un nombre impair (c'est-à-dire 1 ou 3 ou 5), les deux "
+"joueurs perdront %(magnitude_BR)s ; si au contraire le résultat du lancer de "
+"dé est un nombre pair (c'est-à-dire 2 ou 4 ou 6), alors les deux joueurs "
+"gagneront %(magnitude_BR)s."
+
+#: templates/yujiang_main/InstructionsTemplate.html:54
+#, python-format
+msgid ""
+"Once Participant 1 makes her or his decision, the server will separately "
+"roll two fair dice (i.e., hexahedrons). The result of this dice-rolling will "
+"correspondingly affect Participant 1 and 2's payoffs from Part 1.<br> To be "
+"specific, the result of the first die, call it \"Die 1\", affects "
+"Participant 1's payoff from Part 1, such that if Die 1 results in an odd "
+"number (i.e., 1 or 3 or 5), then Participant 1 will lose %(endowment)s; "
+"However, if Die 1 results in an even number (i.e., 2 or 4 or 6), then "
+"Participant 1 will gain %(endowment)s.<br> Similarly, the result of the "
+"second die, call it \"Die 2\", affects Participant 2's payoff from Part 1, "
+"such that if Die 2 results in an odd number, then Participant 2 will lose "
+"%(endowment)s; However, if Die 2 results in an even number, then Participant "
+"2 will gain %(endowment)s."
+msgstr ""
+"Une fois que le joueur 1 a pris sa décision, le serveur lancera séparément "
+"deux dés équilibrés à 6 faces. Le résultat de ces lancers de dés affectera "
+"les gains des joueurs 1 et 2 pour la Partie 1.<br> Pour être précis, le "
+"résultat du lancer du premier dé, appelé \"Dé 1\", affecte seulement les "
+"gains du joueur 1 pour la Partie 1 : si le résultat du lancer du \"Dé 1\"est "
+"un nombre impair (c'est-à-dire 1 ou 3 ou 5), le joueur 1 perdra "
+"%(endowment)s; si au contraire le résultat du lancer du \"Dé 1\" est un "
+"nombre pair (c'est-à-dire 2 ou 4 ou 6), alors le joueur 1 gagnera "
+"%(endowment)s.<br> Parallèlement, le résultat du lancer du \"Dé 2\" affecte "
+"seulement le gain du joueur 2 pour la Partie 1 : si le résultat du lancer du "
+"\"Dé 2\" est un nombre impair (c'est-à-dire 1 ou 3 ou 5), le joueur 2 perdra "
+"%(endowment)s; si au contraire le résultat du lancer du \"Dé 2\" est un "
+"nombre pair (c'est-à-dire 2 ou 4 ou 6), alors le joueur 2 gagnera "
+"%(endowment)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:10
+msgid "Task 2 - Results of the understanding questionnaire"
+msgstr "Tâche 2 - Résultats du questionnaire de compréhension"
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:19
+#, python-format
+msgid "You made %(faults)s mistake(s)."
+msgstr "Vous avez commis %(faults)s erreur(s)."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:28
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:72
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:116
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:160
+msgid "Your submitted answer for Question 1 is correct."
+msgstr "Votre réponse à la question 1 est correcte."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:30
+#, python-format
+msgid ""
+"Your submitted answer for Question 1 is incorrect. <br> The answer should be "
+"\"%(ans_1)s\". <br> In detail, since the die resulted in an odd number (i."
+"e., 1) and only Participant 1 was affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(five)s) - "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + %(five)s."
+msgstr ""
+"Votre réponse à la question 1 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_1)s\". <br> En effet, puisque le résultat du lancer de dé est un "
+"nombre impair (c'est-à-dire 1) et que seul le gain du joueur 1 est affecté "
+"par le lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(five)s) - %(magnitude_BR)s ; le gain du joueur 2 = %(flat_rate)s + "
+"%(five)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:42
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:86
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:130
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:175
+msgid "Your submitted answer for Question 2 is correct."
+msgstr "Votre réponse à la question 2 est correcte."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:44
+#, python-format
+msgid ""
+"Your submitted answer for Question 2 is incorrect. <br> The answer should be "
+"\"%(ans_2)s\". <br> In detail, since the die resulted in an even number (i."
+"e., 4) and only Participant 1 was affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(ten)s) + "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + %(ten)s."
+msgstr ""
+"Votre réponse à la question 2 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_2)s\". <br>  En effet, puisque le résultat du lancer de dé est un "
+"nombre pair (c'est-à-dire 4) et que seul le gain du joueur 1 est affecté par "
+"le lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(ten)s) + %(magnitude_BR)s; le gain du joueur 2 = %(flat_rate)s + %(ten)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:56
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:100
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:144
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:190
+msgid "Your submitted answer for Question 3 is correct."
+msgstr "Votre réponse à la question 3 est correcte."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:58
+#, python-format
+msgid ""
+"Your submitted answer for Question 3 is incorrect. <br> The answer should be "
+"\"%(ans_3)s\". <br> In detail, since the die resulted in an odd number (i."
+"e., 5) and only Participant 1 was affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(fifteen)s) - "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + %(fifteen)s."
+msgstr ""
+"Votre réponse à la question 3 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_3)s\". <br>  En effet, puisque le résultat du lancer de dé est un "
+"nombre impair (c'est-à-dire 5) et que seul le gain du joueur 1 est affecté "
+"par le lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(fifteen)s) - %(magnitude_BR)s ; le gain du joueur 2 = %(flat_rate)s + "
+"%(fifteen)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:74
+#, python-format
+msgid ""
+"Your submitted answer for Question 1 is incorrect. <br> The answer should be "
+"\"%(ans_1)s\". <br> In detail, since the die resulted in an odd number (i."
+"e., 1) and only Participant 2 was affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(five)s); the payoff of "
+"Participant 2 = %(flat_rate)s + %(five)s - %(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 1 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_1)s\". <br> En effet, puisque le résultat du lancer de dé est un "
+"nombre impair (c'est-à-dire 1) et que seul le gain du joueur 2 est affecté "
+"par le lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(five)s) ; le gain du joueur 2 = %(flat_rate)s + %(five)s - "
+"%(magnitude_BR)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:88
+#, python-format
+msgid ""
+"Your submitted answer for Question 2 is incorrect. <br> The answer should be "
+"\"%(ans_2)s\". <br> In detail, since the die resulted in an even number (i."
+"e., 4) and only Participant 2 was affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(ten)s); the payoff of "
+"Participant 2 = %(flat_rate)s + %(ten)s + %(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 2 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_2)s\". <br>  En effet, puisque le résultat du lancer de dé est un "
+"nombre pair (c'est-à-dire 4) et que seul le gain du joueur 2 est affecté par "
+"le lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(ten)s) ; le gain du joueur 2 = %(flat_rate)s + %(ten)s + %(magnitude_BR)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:102
+#, python-format
+msgid ""
+"Your submitted answer for Question 3 is incorrect. <br> The answer should be "
+"\"%(ans_3)s\". <br> In detail, since the die resulted in an odd number (i."
+"e., 5) and only Participant 1 was affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(fifteen)s); the payoff of "
+"Participant 2 = %(flat_rate)s + %(fifteen)s - %(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 3 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_3)s\". <br>   En effet, puisque le résultat du lancer de dé est un "
+"nombre impair (c'est-à-dire 5) et que seul le gain du joueur 1 est affecté "
+"par le lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(fifteen)s) ; le gain du joueur 2 = %(flat_rate)s + %(fifteen)s - "
+"%(magnitude_BR)s.."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:118
+#, python-format
+msgid ""
+"Your submitted answer for Question 1 is incorrect. <br> The answer should be "
+"\"%(ans_1)s\". <br> In detail, since the die resulted in an odd number (i."
+"e., 1) and both players were affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(five)s) - "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + %(five)s - "
+"%(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 1 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_1)s\". <br> En effet, puisque le résultat du lancer de dé est un "
+"nombre impair (c'est-à-dire 1) et que les deux joueurs sont affectés par le "
+"lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(five)s) - %(magnitude_BR)s ; le gain du joueur 2 = %(flat_rate)s + "
+"%(five)s - %(magnitude_BR)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:132
+#, python-format
+msgid ""
+"Your submitted answer for Question 2 is incorrect. <br> The answer should be "
+"\"%(ans_2)s\". <br> In detail, since the die resulted in an even number (i."
+"e., 4) and both players were affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(ten)s) + "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + %(ten)s + "
+"%(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 2 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_2)s\". <br>  En effet, puisque le résultat du lancer de dé est un "
+"nombre pair (c'est-à-dire 4) et que les deux joueurs sont affectés par le "
+"lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(ten)s) + %(magnitude_BR)s ; le gain du joueur 2 = %(flat_rate)s + %(ten)s "
+"+ %(magnitude_BR)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:146
+#, python-format
+msgid ""
+"Your submitted answer for Question 3 is incorrect. <br> The answer should be "
+"\"%(ans_3)s\". <br> In detail, since the die resulted in an odd number (i."
+"e., 5) and both players were affected by die-rolling, the payoff of "
+"Participant 1 = %(flat_rate)s + (%(endowment)s - %(fifteen)s) - "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + %(fifteen)s "
+"- %(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 3 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_3)s\". <br>  En effet, puisque le résultat du lancer de dé est un "
+"nombre impair (c'est-à-dire 5) et que les deux joueurs sont affectés par le "
+"lancer de dé, le gain du joueur 1 = %(flat_rate)s + (%(endowment)s - "
+"%(fifteen)s) - %(magnitude_BR)s ; le gain du joueur 2 = %(flat_rate)s + "
+"%(fifteen)s - %(magnitude_BR)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:162
+#, python-format
+msgid ""
+"Your submitted answer for Question 1 is incorrect. <br> The answer should be "
+"\"%(ans_1)s\". <br> In detail, since the Die 1 resulted in an odd number (i."
+"e., 2), Die 2 also resulted in an odd number (i.e., 6), and Participant 1 "
+"and Participant 2 were affected by Die 1 and Die 2 respectively, then<br> "
+"the payoff of Participant 1 = %(flat_rate)s + (%(endowment)s - €5) + "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + €5 + "
+"%(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 1 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_1)s\". <br> En effet, puisque le résultat du lancer du Dé 1 est un "
+"nombre impair (c'est-à-dire 2) ainsi que celui du Dé 2 (c'est-à-dire 6), et "
+"que le joueur 1 est affecté par le résultat du Dé 1 et le joueur 2 par le "
+"résultat du Dé 2, donc<br> le gain du joueur 1 = %(flat_rate)s + "
+"(%(endowment)s - €5) + %(magnitude_BR)s ; le gain du joueur 2 = "
+"%(flat_rate)s + 5 € + %(magnitude_BR)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:177
+#, python-format
+msgid ""
+"Your submitted answer for Question 2 is incorrect. <br> The answer should be "
+"\"%(ans_2)s\". <br> In detail, since the Die 1 resulted in an even number (i."
+"e., 4), Die 2 also resulted in an odd number (i.e., 1), and Participant 1 "
+"and Participant 2 were affected by Die 1 and Die 2 respectively, then<br> "
+"the payoff of Participant 1 = %(flat_rate)s + (%(endowment)s - €10) + "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + €10 - "
+"%(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 2 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_2)s\". <br> En effet, puisque le résultat du lancer du Dé 1 est un "
+"nombre pair (c'est-à-dire 4) et un nombre impair pour le Dé 2 (c'est-à-dire "
+"1), et que le joueur 1 est affecté par le résultat du Dé 1 et le joueur 2 "
+"par le résultat du Dé 2, puis<br> le gain du joueur 1 = %(flat_rate)s + "
+"(%(endowment)s - €10) + %(magnitude_BR)s ; le gain du joueur 2 = "
+"%(flat_rate)s + €10 - %(magnitude_BR)s."
+
+#: templates/yujiang_main/ResultsOfAttentionCheck.html:192
+#, python-format
+msgid ""
+"Your submitted answer for Question 3 is incorrect. <br> The answer should be "
+"\"%(ans_3)s\". <br> In detail, since the Die 1 resulted in an odd number (i."
+"e., 5), Die 2 also resulted in an odd number (i.e., 3), and Participant 1 "
+"and Participant 2 were affected by Die 1 and Die 2 respectively, then<br> "
+"the payoff of Participant 1 = %(flat_rate)s + (%(endowment)s - €15) - "
+"%(magnitude_BR)s; the payoff of Participant 2 = %(flat_rate)s + €15 - "
+"%(magnitude_BR)s."
+msgstr ""
+"Votre réponse à la question 3 est incorrecte. <br> La bonne réponse est "
+"\"%(ans_3)s\". <br> En effet, puisque le résultat du lancer du Dé 1 est un "
+"nombre impair (c'est-à-dire 5) ainsi que celui du Dé 2 (c'est-à-dire 3), et "
+"que le joueur 1 est affecté par le résultat du Dé 1 et le joueur 2 par le "
+"résultat du Dé 2, puis<br> le gain du joueur 1 = %(flat_rate)s + "
+"(%(endowment)s - €15) - %(magnitude_BR)s ; le gain du joueur 2 = "
+"%(flat_rate)s + €15 - %(magnitude_BR)s."
+
+#: templates/yujiang_main/RoleAssignment.html:10
+msgid "Task 2 - Role"
+msgstr "Tâche 2 - Rôle"
+
+#: templates/yujiang_main/RoleAssignment.html:18
+#, python-format
+msgid ""
+"You have been chosen to play as <b>Participant 1</b> in Task 2.<br> Please "
+"click the \"Next\" button to decide how to split these additional "
+"%(endowment)s."
+msgstr ""
+"Vous avez été tiré au sort pour agir en tant que <b>joueur 1</b> pour la "
+"tâche 2.<br> Veuillez cliquer sur le bouton \"Suivant\" pour décider comment "
+"répartir ces %(endowment)s supplémentaires."
+
+#: templates/yujiang_main/RoleAssignment.html:23
+msgid ""
+"You have been chosen to play as <b>Participant 2</b> in Task 2.<br> Please "
+"click the \"Next\" button to see how much Participant 1 decided to send to "
+"you."
+msgstr ""
+"Vous avez été tiré au sort pour agir en tant que <b>joueur 2</b> pour la "
+"tâche 2.<br> Veuillez cliquer sur le bouton \"Suivant\" pour voir combien le "
+"joueur 1 a décidé de vous envoyer.."
+
+#: templates/yujiang_main/StartTask2.html:10
+msgid "Task 2"
+msgstr "Tâche 2"
+
+#: templates/yujiang_main/StartTask2.html:14
+#, python-format
+msgid ""
+"Now you have %(flat_rate)s at hand that you earned from your previous task."
+msgstr "Vous disposez maintenant de %(flat_rate)s grâce à la tâche précédente."
+
+#: templates/yujiang_main/StartTask2.html:20
+msgid ""
+"You will see the instruction for Task 2 on the next page. We suggest you "
+"read it carefully. To check whether you understand the instruction well "
+"enough, we need you to answer some questions before entering Task 2. The "
+"correction page will appear after the question page."
+msgstr ""
+"Vous verrez les instructions pour la tâche 2 sur la page suivante. Nous vous "
+"suggérons de les lire attentivement. Pour vérifier votre bonne compréhension "
+"des instructions, vous serez invité(e) à répondre à quelques questions avant "
+"de commencer la tâche 2. Une page de corrections apparaîtra après la page de "
+"questions."
+
+#: templates/yujiang_main/admin_report.html:4
+msgid "Infos about the dictator game"
+msgstr "Informations sur le jeu du dictateur"
+
+#: templates/yujiang_main/admin_report.html:11
+msgid "Group"
+msgstr "Groupe"
+
+#: templates/yujiang_main/admin_report.html:13
+msgid "Sent"
+msgstr "Envoi"
+
+#: templates/yujiang_main/admin_report.html:14
+msgid "Die 1"
+msgstr "Dé 1"
+
+#: templates/yujiang_main/admin_report.html:15
+msgid "Die 2"
+msgstr "Dé 2"
+
+#: templates/yujiang_main/admin_report.html:16
+msgid "Payoff"
+msgstr "Gain"
+
+#~ msgid ""
+#~ "Suppose Participant 1 sent €5. Die 1 resulted in 2, and Die 2 resulted in "
+#~ "6. Including the {} earned in Task 1, how much did each of them ended up "
+#~ "with in Part 1?"
+#~ msgstr ""
+#~ "Supposons que le joueur 1 envoie 5 €. Le dé 1 affiche le chiffre 2 et le "
+#~ "dé 2 affiche le chiffre 6. En incluant les {} gagnés pour la tâche 1, "
+#~ "quel est le gain de chacun pour la partie 1?"
+
+#~ msgid ""
+#~ "Suppose Participant 1 sent €10. Die 1 resulted in 4, and Die 2 resulted "
+#~ "in 1. Including the {} earned in Task 1, how much did each of them ended "
+#~ "up with in Part 1?"
+#~ msgstr ""
+#~ "Supposons que le joueur 1 envoie 10 €. Le dé 1 affiche le chiffre 4 et le "
+#~ "dé 2 affiche le chiffre 6. En incluant les {} gagnés pour la tâche 1, "
+#~ "quel est le gain de chacun pour la partie 1?"
+
+#~ msgid ""
+#~ "Suppose Participant 1 sent €15. Die 1 resulted in 5, and Die 2 resulted "
+#~ "in 3. Including the {} earned in Task 1, how much did each of them ended "
+#~ "up with in Part 1?"
+#~ msgstr ""
+#~ "Supposons que le joueur 1 envoie 15 €. Le dé 1 affiche le chiffre 5 et le "
+#~ "dé 2 affiche le chiffre 3. En incluant les {} gagnés pour la tâche 1, "
+#~ "quel est le gain de chacun pour la partie 1?"
+
+#~ msgid ""
+#~ "\n"
+#~ "                        Once Participant 1 makes her or his decision, the "
+#~ "server will roll a fair die (i.e., hexahedron).\n"
+#~ "                        The result of this die-rolling will affect both "
+#~ "Participant 1 and 2's payoffs from Part 1.<br>\n"
+#~ "                        To be specific, if the die results in an odd "
+#~ "number (i.e., 1 or 3 or 5), then both Participant 1 and 2\n"
+#~ "                        will lose %(magnitude_BR)s;\n"
+#~ "                        However, if the die results in an even number (i."
+#~ "e., 2 or 4 or 6), then both Participant 1 and 2 will\n"
+#~ "                        gain %(magnitude_BR)s.\n"
+#~ "                    "
+#~ msgstr ""
+#~ "\n"
+#~ "\t\t      Une fois que le joueur 1 a pris sa décision, le serveur lancera "
+#~ "un dé équilibré à 6 faces.\n"
+#~ "                        Le résultat de ce jet de dé affectera à la fois "
+#~ "le gain du joueur 1 et le gain du joueur 2 pour la Partie 1.<br>\n"
+#~ "                        Pour être précis, si le résultat du lancer de dé "
+#~ "est un nombre impair (c'est-à-dire 1 ou 3 ou 5), alors les joueurs 1 et "
+#~ "2\n"
+#~ "                        perdront %(magnitude_BR)s ;\n"
+#~ "                         si au contraire le résultat du lancer de dé est "
+#~ "un nombre pair (c'est-à-dire 2 ou 4 ou 6), alors les deux joueurs "
+#~ "gagneront %(magnitude_BR)s."

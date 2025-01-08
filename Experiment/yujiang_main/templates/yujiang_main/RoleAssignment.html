@@ -1,0 +1,44 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Part 1" %}
+{% endblock %}
+
+{% block content %}
+<h5 class="mb-3">{% trans "Task 2 - Role" %}</h5>
+<div class="text-right mb-3">
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal_content">{% trans "Read again the instructions" %}</button>
+</div>
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p>
+            {% if player.id_in_group == 1 %}
+                {% blocktrans trimmed with endowment=Constants.endowment %}
+                    You have been chosen to play as <b>Participant 1</b> in Task 2.<br>
+                        Please click the "Next" button to decide how to split these additional {{ endowment }}.
+                {% endblocktrans %}
+            {% else %}
+                {% blocktrans trimmed %}
+                    You have been chosen to play as <b>Participant 2</b> in Task 2.<br>
+                    Please click the "Next" button to see how much Participant 1 decided to send to you.
+                {% endblocktrans %}
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+    {% next_button %}
+{% include "global/TemplateModal.html" with title="Instructions" content="yujiang_main/InstructionsTemplate.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}

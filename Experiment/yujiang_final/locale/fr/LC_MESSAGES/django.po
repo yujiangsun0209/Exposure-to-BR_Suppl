@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-23 13:25+0200\n"
+"PO-Revision-Date: 2021-09-23 13:27+0200\n"
+"Last-Translator: Dimitri DUBOIS <dimitri.dubois@umontpellier.fr>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.3\n"
+
+#: templates/yujiang_final/Final.html:6
+#: templates/yujiang_final/Final_after_comments.html:6
+msgid "Fin de l'expérience"
+msgstr "Fin de l'expérience"
+
+#: templates/yujiang_final/Final.html:13
+msgid ""
+"Vous pouvez écrire des commentaires sur l'expérience dans la zone ci-"
+"dessous. Pensez ensuite à cliquer sur le bouton Enregistrer"
+msgstr ""
+"Vous pouvez écrire des commentaires sur l'expérience dans la zone ci-"
+"dessous. Pensez ensuite à cliquer sur le bouton Enregistrer"
+
+#: templates/yujiang_final/Final.html:17
+msgid "Enregistrer"
+msgstr "Enregistrer"
+
+#: templates/yujiang_final/FinalTemplate.html:6
+msgid "Part 1"
+msgstr "Partie 1"
+
+#: templates/yujiang_final/FinalTemplate.html:13
+msgid "Part 2 - Task 1"
+msgstr "Partie 2 - Tâche 1"
+
+#: templates/yujiang_final/FinalTemplate.html:20
+msgid "Part 2 - Task 2"
+msgstr "Partie 2 - Tâche 2"
+
+#: templates/yujiang_final/FinalTemplate.html:28
+#, python-format
+msgid ""
+"This is Task %(selected_task)s that has been randomly selected to be paid "
+"for Part 2.<br> Your payoff for this experiment is %(payoff)s."
+msgstr ""
+"C'est la tâche %(selected_task)s qui a été aléatoirement sélectionnée "
+"pour votre rémunération de la partie 2.<br> Votre gain pour cette "
+"expérience est %(payoff)s."
+
+#: templates/yujiang_final/admin_report.html:4
+msgid "Details of payoffs"
+msgstr "Détail des gains"
+
+#~ msgid "End of the experiment"
+#~ msgstr "Fin de l'expérience"
+
+#~ msgid "The experiment is over, thank you for your participation"
+#~ msgstr "L'expérience est terminée, merci pour votre participation"
+
+#~ msgid "Your payoff for the experiment is equal to"
+#~ msgstr "Votre gain pour l'expérience est de"
+
+#~ msgid "You can write some comments about the experiment below"
+#~ msgstr ""
+#~ "Vous pouvez écrire des commentaires sur l'expérience dans la zone ci-"
+#~ "dessous"
+
+#~ msgid "Save"
+#~ msgstr "Enregistrer"

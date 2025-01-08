@@ -1,0 +1,33 @@
+{% extends "global/Base.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Result" %}
+{% endblock %}
+
+{% block content %}
+<p>
+    {% blocktrans trimmed %}
+        You chose to collect {{ boxes_collected }} out of {{ num_boxes }} boxes.
+    {% endblocktrans %}
+    <br/><br/>
+    {% if bomb %}
+        {% blocktrans trimmed %}
+            The bomb was among your {{ boxes_collected }} collected boxes, your payoff is therefore equal to
+            {{ round_payoff }} €.
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans trimmed %}
+            Your collected boxes did not contain the bomb.<br/>
+            Thus, you receive {{ box_value }} € for each of the {{ boxes_collected }} boxes
+            you collected such that your payoff is equal to <b>{{ round_payoff }} €</b>.
+        {% endblocktrans %}
+    {% endif %}
+
+<p>&nbsp;</p>
+
+    {% next_button %}
+
+{% endblock %}
+

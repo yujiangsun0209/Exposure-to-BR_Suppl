@@ -1,0 +1,32 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{% block title %}
+{% trans "End of Part 1" %}
+{% endblock %}
+
+{% block content %}
+<div class="card bg-light text-justify mb-3">
+    <div class="card-body">
+        <p>
+            {% blocktrans trimmed %}
+            At this point, Participant 1 has made her or his choice. And also, a die has been rolled by the server.<br>
+            However, please be patient. The results of Part 1 will be shown at the end of the experiment.
+            {% endblocktrans %}
+        </p>
+    </div>
+</div>
+
+    {% next_button %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'fill_auto.js' %}"></script>
+<script>
+    window.onload = function () {
+        if (js_vars.fill_auto)
+            fill_auto();
+    }
+</script>
+{% endblock %}
