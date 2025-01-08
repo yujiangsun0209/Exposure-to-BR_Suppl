@@ -1,0 +1,833 @@
+---
+title: "Exposure to Background Risk Does Not Affect Giving in the Dictator Game: An Experimental Study."
+author: "Sun. Y"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    keep_md: true 
+    # having a floating table of content with a depth of 4
+    toc: true
+    toc_float: 
+      collapsed: true
+      smooth_scroll: true
+    toc_depth: 4
+    # section numbering 
+    number_sections: true
+    # table printing style
+    df_print: paged
+    # show code chunk as needed
+    code_folding: hide
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data Manipulation {.unnumbered}
+```{r data clearing & manipulation}
+# ============================= loading packages ============================= #
+pacman::p_load(
+  # data manipulation
+  tidyverse, dplyr, readxl, 
+  # summary and plots
+  ggplot2, scales, xtable, jtools, broom.mixed, 
+  # tests and regression
+  rcompanion, DescTools, dunn.test, conover.test, aod, corrplot, censReg, sandwich, lmtest, crch, miscTools, caret, mfx, pscl, broom, oglmx, stargazer, magrittr, texreg
+  )
+path2data <- "G:/My Drive/Projects/Giving under BR/R.markdown/data.csv"
+mydata <- as_tibble(read.csv(path2data, header = TRUE)) %>% 
+  mutate(br_trts = as.logical(ifelse(dict_treatment == 0, FALSE, TRUE)))
+  
+# ============================= manipulating data ============================ #
+dict_by_trt <- mydata %>%
+  dplyr::filter(dict_id_in_group == 1) %>% 
+  dplyr::select(
+    session, session_date, participant, dict_treatment, dict_ans_check, dict_group_give, dict_gachter_circles, bret_boxes_collected, 
+    svo_mean_self:svo_classification, risque_general:experiment_participation
+    ) %>% 
+  dplyr::rename(
+    "date"                 = "session_date",
+    "treatment"            = "dict_treatment", 
+    "understanding"        = "dict_ans_check", 
+    "donation"             = "dict_group_give", 
+    "ios"                  = "dict_gachter_circles", 
+    "bret"                 = "bret_boxes_collected", 
+    "avg_svo(self)"        = "svo_mean_self", 
+    "avg_svo(other)"       = "svo_mean_other", 
+    "svo"                  = "svo_score", 
+    "ra_general"           = "risque_general", 
+    "ra_health"            = "risque_sante", 
+    "ra_wealth"            = "risque_argent", 
+    "trust_others"         = "confiance_autres", 
+    "trust_others_general" = "confiance_autres_general", 
+    "trust_family"         = "confiance_autres_famille", 
+    "trust_work"           = "confiance_autres_travail", 
+    "birth_year"           = "year_of_birth", 
+    "political"            = "politique"
+    ) %>%
+  dplyr::mutate(
+    date = as.Date(date),
+    covid = as.logical(ifelse(date < "2023-01-01", TRUE, FALSE)), 
+    session_year = as.numeric(format(as.Date(date, format="%Y%m/%d/"),"%Y")),
+          # ================== giving behaviors ==================== # 
+    zero_giving = as.logical(ifelse(donation == 0, TRUE, FALSE)), 
+    qtr_split = as.logical(ifelse(donation == 5, TRUE, FALSE)), 
+    fair_split = as.logical(ifelse(donation == 10, TRUE, FALSE)), 
+    little = as.logical(ifelse(donation==5 | donation==6, TRUE, FALSE)),
+          # ===================== treatments ======================= # 
+    treatment = factor(
+      case_when(
+        treatment == 0 ~ "ctrl", 
+        treatment == 1 ~ "dictator_exp", 
+        treatment == 2 ~ "recipient_exp", 
+        treatment == 3 ~ "common_exp"
+        ),
+      levels = c("ctrl", "dictator_exp", "recipient_exp", "common_exp")
+      ),
+    br_trts = as.logical(ifelse(treatment == "ctrl", FALSE, TRUE)),
+    exposure = factor(
+      case_when(
+        treatment == "ctrl" ~ "ctrl",
+        treatment == "dictator_exp" | treatment == "recipient_exp" ~ "one_sided_exp",
+        treatment == "common_exp" ~ "common_exp"),
+      levels = c("ctrl", "one_sided_exp", "common_exp")
+    ),
+    one_sided_exposure = as.logical(case_when(
+      treatment == "dictator_exp" | treatment == "recipient_exp" ~ TRUE,
+      treatment == "ctrl" ~ FALSE, 
+      treatment == "common_exp" ~ NA
+    )),
+          # ======================== svo =========================== # 
+    svo_type = factor(
+      svo_classification, 
+      levels = c("individualist", "competitive", "prosocial", "altruist")
+      ),
+          # ==================== risk aversion ===================== # 
+    ra_bret = 100 - bret, # The higher `ra_bret` gets, the more one is risk averse 
+    crra = -bret/(-100 + bret), # converted to CRRA index (Crosetto & Filippin, 2013)
+    ra_general = as.numeric(10 - ra_general), # The higher `ra_general` gets, the more one is risk averse
+    ra_wealth = as.numeric(10 - ra_wealth), # The higher `ra_wealth` gets, the more one is risk averse w.r.t financial situation
+          # ====================== education ======================= #    
+    student = as.logical(ifelse(student == "True", TRUE, FALSE)),
+    study.level = as.numeric(study_level), 
+    study_level = factor(
+      case_when(
+        as.integer(study_level) == 0 ~ "high_school",
+        as.integer(study_level) == 1 | as.integer(study_level) == 2 | as.integer(study_level) == 3 ~ "bachelor",
+        as.integer(study_level) == 4 | as.integer(study_level) == 5 ~ "master",
+        as.integer(study_level) == 6 | as.integer(study_level) == 7 ~ "phd"),
+      levels = c("high_school", "bachelor", "master", "phd")
+      ),
+    econ = as.logical(
+      ifelse(
+        # econ related disciplines include "business school"(3), "economics"(6) and "management"(9)
+        study_discipline == 3 | study_discipline == 6 | study_discipline == 9, TRUE, FALSE)
+      ),
+          # ================== demographic info ================== #
+    age = session_year - as.numeric(birth_year),
+    female = as.logical(ifelse(gender == 0, TRUE, FALSE)), # female if 0 and male otherwise
+    marital_status = factor(case_when(
+      marital_status == 0 ~ "single", 
+      marital_status == 1 ~ "pacsé(e)",
+      marital_status == 2 ~ "married", 
+      marital_status == 3 ~ "divorced", 
+      marital_status == 4 ~ "widowed"),
+      levels = c("single", "pacsé(e)", "married", "divorced", "widowed")
+      ),
+          # ================ political preference ================ #
+    political.pref = as.numeric(political),
+    political_pref = factor(
+      # "neutral" (ref) if 4~6, "left" if 0~3 and "right" if 7~10
+      ifelse(political >= 4 & political <= 6, "neutral", ifelse(political < 4, "left", "right")),
+      levels = c("neutral", "left", "right")
+      )) %>% 
+  group_by(treatment)
+
+        # ========== McFadden's pseudo R-squared for tobit =========== #
+pseudoR2.tobit <- function(obj) 1 - as.vector(logLik(obj)/logLik(update(obj, . ~ 1))) # PseudoR2() in 'DescTools' does not recognize "censReg" subject
+
+        # ========================= sig. lvl ========================= #
+alpha <- .05
+
+# ================================ cleaning ================================== #
+remove(path2data)
+```
+# Predictions
+
+***
+
+**HYPOTHSIS 1**
+
+Risk-neutral dictators with an \textit{ex ante} view on inequality aversion are unaffected by exposure to additive, zero-mean background risk.
+
+***
+
+***
+
+**HYPOTHSIS 2**
+
+One-sided exposure (i.e., Treatments \textit{R_Exp} and \textit{D_Exp}) to additive and zero-mean background risk yields identical and nonpositive effects on FS donations, while common exposure (i.e., Treatment \textit{C_Exp}) has no effect, such that $$ d_{FS}^{\textit{D_Exp}}=d_{FS}^{\textit{R_Exp}}\leq d_{FS}^{\textit{C_Exp}}=d_{FS}^{\textit{No_Exp}} $$
+
+***
+
+***
+
+**HYPOTHSIS 3**
+
+One-sided exposure (i.e., Treatments \textit{R_Exp} and \textit{D_Exp}) to additive and zero-mean background risk has opposite effects on BO donations. Specifically, the recipients' exposure (resp. the dictators' exposure) yields nonnegative (resp. nonpositive) effects on BO donations, such that $$ d_{BO}^{\textit{D_Exp}}\leq d_{BO}^{\textit{No_Exp}}\leq d_{BO}^{\textit{R_Exp}} $$
+Meanwhile common exposure (i.e., Treatment \textit{C_Exp}) yield nonnegative effects, such that $$ d_{BO}^{\textit{C_Exp}}\geq d_{BO}^{\textit{No_Exp}} $$
+
+***
+
+# Descriptive Statistics
+```{r summary}
+summary_trt <- dict_by_trt %>%
+  summarise(
+    N = n(),
+    Mean = round(mean(donation), 2),
+    SD = round(sd(donation), 2),
+    # median = round(median(donation), 2),
+    Zero_giving = percent(sum(zero_giving == TRUE)/n(), accuracy = 0.01),
+    Fair_splitting = percent(sum(fair_split == TRUE)/n(), accuracy = 0.01),
+    ) %>%
+  mutate(
+    treatment = case_when(
+      treatment == "ctrl" ~ "T0",
+      treatment == "dictator_exp" ~ "T1",
+      treatment == "recipient_exp" ~ "T2",
+      treatment == "common_exp" ~ "T1&2",
+      TRUE ~ as.character(treatment)
+    )
+  )
+summary_trt
+```
+```{r nonparametric tests}
+round.digits <- 4
+
+# ============================ ON DONATION AMOUNTS =========================== #     
+        # ======== kruskal-wallis rank sum test: r_exp & d_exp ======= #                
+kruskal.wallis_r_exp_d_exp <- kruskal.test(
+  formula = donation ~ treatment,
+  data = dict_by_trt %>% filter(treatment != "common_exp")
+)             
+
+        # ========== two-sided wilcoxon rank sum test: c_exp ========= # 
+mw_c_exp <- wilcox.test(
+  x = (dict_by_trt %>% filter(treatment == "common_exp")) %>% pull(donation),
+  y = (dict_by_trt %>% filter(treatment == "ctrl")) %>% pull(donation),
+  alternative = "two.sided",
+  # alternative = "less", # `fs_no_exp_c_exp`: `common_exp` yields a negative effect
+  paired = FALSE)
+
+        # ====== kruskal-wallis rank sum test: all trts ====== #
+kruskal.wallis_trts <- kruskal.test(
+  formula = donation ~ treatment, data = dict_by_trt
+  )
+
+# ============================ ON GIVING BEHAVIORS =========================== #
+baseline <- "ctrl"
+giving.behaviors <- c("zero_giving", "fair_split")
+treatment.groups <- c("dictator_exp", "recipient_exp", "common_exp")
+for (giving in giving.behaviors) {
+  for (trt in treatment.groups) {
+        # ====================== chi-square test ===================== #               
+    chisq <- paste("chisq", giving, trt, sep = "_")
+    assign(chisq,
+           chisq.test(
+             x = dict_by_trt %>% filter(treatment == baseline | treatment == trt) %>% pull(treatment),
+             y = dict_by_trt %>% filter(treatment == baseline | treatment == trt) %>% pull(!!giving)
+             )
+           )
+        # ==================== fisher's exact test =================== #
+    fisher <- paste("fisher", giving, trt, sep = "_")
+    assign(fisher,
+           fisher.test(
+             x = dict_by_trt %>% filter(treatment == baseline | treatment == trt) %>% pull(treatment),
+             y = dict_by_trt %>% filter(treatment == baseline | treatment == trt) %>% pull(!!giving)
+             )
+           )
+  }
+}
+
+# ================================== SUMMARY ================================= #
+summary_donation <- data.frame(
+  comparison = c("T0_vs_(T1_T2)", "T0_vs_T1&2", "T0_vs_(T1_T2_T1&2)"),
+  tests = c(
+    kruskal.wallis_r_exp_d_exp$method, mw_c_exp$method, kruskal.wallis_trts$method
+  ),
+  statistics = c(
+    kruskal.wallis_r_exp_d_exp$statistic, mw_c_exp$statistic, kruskal.wallis_trts$statistic
+  ),
+  df = c(
+    kruskal.wallis_r_exp_d_exp$parameter, NA, kruskal.wallis_trts$parameter
+  ),
+  p.value = c(
+    kruskal.wallis_r_exp_d_exp$p.value, mw_c_exp$p.value, kruskal.wallis_trts$p.value
+  )
+) %>% mutate(
+    across(where(is.numeric), ~ format(round(., digits = round.digits), nsmall = round.digits, scientific = FALSE)),
+    significance = case_when(
+      p.value >= 0.1 ~ "None",
+      p.value >= 0.05 & p.value < 0.1 ~ "*",
+      p.value >= 0.01 & p.value < 0.05 ~ "**",
+      p.value < 0.01 ~ "***"
+    )
+)
+summary_donation
+
+summary_zero <- data.frame(
+  zero_giving = c("T0_vs_T1", 
+                  "T0_vs_T2", 
+                  "T0_vs_T1&2"),
+  chisq.statistic = c(chisq_zero_giving_dictator_exp$statistic,
+                      chisq_zero_giving_recipient_exp$statistic,
+                      chisq_zero_giving_common_exp$statistic), 
+  chisq.df = c(chisq_zero_giving_dictator_exp$parameter, 
+               chisq_zero_giving_recipient_exp$parameter, 
+               chisq_zero_giving_common_exp$parameter),
+  chisq.p = c(chisq_zero_giving_dictator_exp$p.value, 
+              chisq_zero_giving_recipient_exp$p.value, 
+              chisq_zero_giving_common_exp$p.value),
+  fisher.p = c(fisher_zero_giving_dictator_exp$p.value, 
+               fisher_zero_giving_recipient_exp$p.value, 
+               fisher_zero_giving_common_exp$p.value)
+) %>% mutate(
+    across(where(is.numeric), ~ format(round(., digits = round.digits), nsmall = round.digits, scientific = FALSE))
+)
+summary_zero
+
+summary_fair <- data.frame(
+  fair_giving = c("T0_vs_T1", 
+                  "T0_vs_T2", 
+                  "T0_vs_T1&2"),
+  chisq.statistic = c(chisq_fair_split_dictator_exp$statistic, 
+                       chisq_fair_split_recipient_exp$statistic, 
+                       chisq_fair_split_common_exp$statistic), 
+  chisq.df = c(chisq_fair_split_dictator_exp$parameter, 
+               chisq_fair_split_recipient_exp$parameter, 
+               chisq_fair_split_common_exp$parameter),
+  chisq.p = c(chisq_fair_split_dictator_exp$p.value, 
+              chisq_fair_split_recipient_exp$p.value, 
+              chisq_fair_split_common_exp$p.value),
+  fisher.p = c(fisher_fair_split_dictator_exp$p.value, 
+               fisher_fair_split_recipient_exp$p.value, 
+               fisher_fair_split_common_exp$p.value)
+) %>% mutate(
+    across(where(is.numeric), ~ format(round(., digits = round.digits), nsmall = round.digits, scientific = FALSE))
+)
+summary_fair
+```
+# Regression Analysis
+## Donation amounts (Tobit)
+```{r type-I tobit left-censored at zero}
+# NOTE: coeftest() is only for facilitating the p correction
+# ============================== SPECIFIICATION ============================== #
+tobit_br <- censReg(
+  formula = donation ~ br_trts, 
+  data = dict_by_trt, left = 0
+)
+tobit_trt <- censReg(
+  formula = donation ~ treatment, 
+  data = dict_by_trt, left = 0
+)
+tobit_bret_svo <- censReg(
+  formula = donation ~ treatment + ra_bret + svo,
+  # formula = donation ~ treatment + ra_bret + svo + female + study.level,
+  data = dict_by_trt, left = 0
+)
+tobit_int <- censReg(
+  formula = donation ~ treatment * ra_bret + svo,
+  # formula = donation ~ treatment * ra_bret + svo + female + study.level,
+  data = dict_by_trt, left = 0
+)
+tobit_ctrl <- censReg(
+  formula = donation ~ treatment + ra_bret + svo + female + study.level,
+  data = dict_by_trt, left = 0
+)
+```
+```{r p correction (tobit)}
+selected.tobit <- c("tobit_br", "tobit_trt", "tobit_bret_svo", "tobit_int", "tobit_ctrl")
+for (model in selected.tobit) {
+  tobit_coeftest <- paste(model, "_coeftest", sep = "") 
+  assign(
+    tobit_coeftest,
+    coeftest(get(model))
+    )
+  pseudoR2 <- paste("pseudoR2_", model, sep = "")
+  assign(
+    pseudoR2, 
+    round(pseudoR2.tobit(get(model)), 3)
+  )
+  logLik <- paste("logLik_", model, sep = "")
+  assign(
+    logLik,
+    logLik(get(model))[1]
+  )
+}
+
+# ================= BONFERRONI CORRECTION FOR FALSE POSITIVE ================= #
+selected.method = "bonferroni"
+        # ================ `tobit_trt` ================ #
+adjusted.p <- p.adjust(
+  p = as.numeric(tobit_trt_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4]),
+  method = selected.method
+  )
+temp <- tobit_trt_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4] <- adjusted.p
+tobit_trt_p.adj <- temp
+# tobit_trt_p.adj
+        # ============ `tobit_bret_svo` =============== #
+adjusted.p <- p.adjust(
+  p = as.numeric(tobit_bret_svo_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4]),
+  method = selected.method
+  )
+temp <- tobit_bret_svo_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4] <- adjusted.p
+tobit_bret_svo_p.adj <- temp
+# tobit_bret_svo_p.adj
+        # ================ `tobit_int` ================ #
+adjusted.p <- p.adjust(
+  p = as.numeric(tobit_int_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp", "treatmentdictator_exp:ra_bret", "treatmentrecipient_exp:ra_bret", "treatmentcommon_exp:ra_bret"),4]),
+  method = selected.method
+  )
+temp <- tobit_int_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp", "treatmentdictator_exp:ra_bret", "treatmentrecipient_exp:ra_bret", "treatmentcommon_exp:ra_bret"),4] <- adjusted.p
+tobit_int_p.adj <- temp
+# tobit_int_p.adj
+        # =============== `tobit_ctrl` ================ #
+adjusted.p <- p.adjust(
+  p = as.numeric(tobit_ctrl_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4]),
+  method = selected.method
+  )
+temp <- tobit_ctrl_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4] <- adjusted.p
+tobit_ctrl_p.adj <- temp
+# tobit_ctrl_p.adj
+
+# ================================= CLEANING ================================= #
+remove(list = ls(pattern = "_coeftest$"))
+remove(list = c("selected.tobit", "model", "pseudoR2", "logLik", "selected.method", "temp", "adjusted.p"))
+```
+```{r summary: left-censored tobit}
+# NOTE: regression statistics are only available when the original models are used directly in screenreg().
+
+screenreg(
+  l = list(
+    tobit_trt_p.adj,                                        # (1)
+    tobit_bret_svo_p.adj,                                   # (2)
+    tobit_int_p.adj,                                        # (3)
+    tobit_ctrl_p.adj                                        # (4)
+    ),
+  # custom.header = list("Donation amount in DG" = 1:5),
+  custom.header = list("Donation amount in DG (Tobit)" = 1:4),
+  custom.model.names = c(
+    "(1)",                                                  # (1)
+    "(2)",                                                  # (2)
+    "(3)",                                                  # (3)
+    "(4)"                                                   # (4)
+  ),
+  custom.coef.names = c("T1", "T2", "T1&2", "Risk_Aversion (RA)", "SVO", "T1 × RA", "T2 × RA", "T1&2 × RA", "Female", "Study_Lvl"),
+  omit.coef = "logSigma|(Intercept)",
+  digits = 3,
+  stars = c(0.01, 0.05, 0.1),
+  custom.note = "* p<0.1; ** p<0.05; *** p<0.01. P-values associated with the treatments are adjusted using Bonferroni method."
+)
+```
+## Zero-giving & Fair-splitting
+```{r probit with zero_giving & fair_split}
+# ============================== SPECIFIICATION ============================== #
+        # ====================== ZERO-GIVING ====================== #
+probit_zero_br <- glm(
+  formula = zero_giving ~ br_trts,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+probit_zero_trt <- glm(
+  formula = zero_giving ~ treatment,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+probit_zero_int <- glm(
+  formula = zero_giving ~ treatment * ra_bret + svo,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+probit_zero_ctrl <- glm(
+  formula = zero_giving ~ treatment + ra_bret + svo + female,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+        # ==================== FAIR-SPLITTING ==================== #
+probit_fair_br <- glm(
+  formula = fair_split ~ br_trts,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+probit_fair_trt <- glm(
+  formula = fair_split ~ treatment,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+probit_fair_int <- glm(
+  formula = fair_split ~ treatment * ra_bret + svo,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+probit_fair_ctrl <- glm(
+  formula = fair_split ~ treatment + ra_bret + svo + female,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+```
+```{r p correction (probit: zero_giving & fair_split)}
+selected.probit <- c(
+  "probit_zero_br", "probit_zero_trt", "probit_zero_int", "probit_zero_ctrl", 
+  "probit_fair_br", "probit_fair_trt", "probit_fair_int", "probit_fair_ctrl"
+  )
+for (model in selected.probit) {
+  probit_coeftest <- paste(model, "_coeftest", sep = "") 
+  assign(
+    probit_coeftest,
+    coeftest(get(model))
+    )
+  mfx.probit <- paste("mfx_", model, sep = "")
+  assign(
+    mfx.probit,
+    probitmfx(
+      get(model), 
+      data = dict_by_trt, atmean = FALSE
+      )
+  )
+  # compute other statistics of the regression: McFadden's pseudo R-squared, Log likelihood
+  pseudoR2 <- paste("pseudoR2_", model, sep = "")
+  assign(
+    pseudoR2, 
+    PseudoR2(
+      get(model),
+      which = "McFadden"
+      )
+    )
+  logLik <- paste("logLik_", model, sep = "")
+  assign(
+    logLik,
+    logLik(get(model))[1]
+    )
+}
+
+# ================= BONFERRONI CORRECTION FOR FALSE POSITIVE ================= #
+selected.method = "bonferroni"
+
+        # ============ `probit_zero_trt` =============== #
+adjusted.p <- p.adjust(
+  p = as.numeric(probit_zero_trt_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4]),
+  method = selected.method
+  )
+temp <- probit_zero_trt_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4] <- adjusted.p
+probit_zero_trt_p.adj <- temp
+# probit_zero_trt_p.adj
+        # ============ `probit_fair_trt` =============== #
+adjusted.p <- p.adjust(
+  p = as.numeric(probit_fair_trt_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4]),
+  method = selected.method
+  )
+temp <- probit_fair_trt_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4] <- adjusted.p
+probit_fair_trt_p.adj <- temp
+# probit_fair_trt_p.adj
+        # ============ `probit_zero_ctrl` =============== #
+adjusted.p <- p.adjust(
+  p = as.numeric(probit_zero_ctrl_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4]),
+  method = selected.method
+  )
+temp <- probit_zero_ctrl_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4] <- adjusted.p
+probit_zero_ctrl_p.adj <- temp
+# probit_zero_ctrl_p.adj
+        # ============ `probit_fair_ctrl` =============== #
+adjusted.p <- p.adjust(
+  p = as.numeric(probit_fair_ctrl_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4]),
+  method = selected.method
+  )
+temp <- probit_fair_ctrl_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp"),4] <- adjusted.p
+probit_fair_ctrl_p.adj <- temp
+# probit_fair_ctrl_p.adj
+        # ============ `probit_zero_int` =============== #
+adjusted.p <- p.adjust(
+  p = as.numeric(probit_zero_int_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp", "treatmentdictator_exp:ra_bret", "treatmentrecipient_exp:ra_bret", "treatmentcommon_exp:ra_bret"),4]),
+  method = selected.method
+  )
+temp <- probit_zero_int_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp", "treatmentdictator_exp:ra_bret", "treatmentrecipient_exp:ra_bret", "treatmentcommon_exp:ra_bret"),4] <- adjusted.p
+probit_zero_int_p.adj <- temp
+# probit_zero_int_p.adj
+        # ============ `probit_fair_int` =============== #
+adjusted.p <- p.adjust(
+  p = as.numeric(probit_fair_int_coeftest[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp", "treatmentdictator_exp:ra_bret", "treatmentrecipient_exp:ra_bret", "treatmentcommon_exp:ra_bret"),4]),
+  method = selected.method
+  )
+temp <- probit_fair_int_coeftest
+temp[c("treatmentdictator_exp", "treatmentrecipient_exp", "treatmentcommon_exp", "treatmentdictator_exp:ra_bret", "treatmentrecipient_exp:ra_bret", "treatmentcommon_exp:ra_bret"),4] <- adjusted.p
+probit_fair_int_p.adj <- temp
+# probit_fair_int_p.adj
+
+# ================================= CLEANING ================================= #
+remove(list = ls(pattern = "_coeftest$"))
+remove(list = c("selected.probit", "model", "pseudoR2", "logLik", "selected.method", "temp", "adjusted.p"))
+```
+```{r summary: probit (zero-giving & fair-splitting)}
+# ============= REGRESSION SUMMARY TABLE 1: PO, OLS, AND TOBIT =============== #
+screenreg(
+  l = list(
+    probit_zero_trt_p.adj,                                  # (1)
+    probit_zero_int_p.adj,                                  # (2)
+    probit_zero_ctrl_p.adj,                                 # (3)
+    probit_fair_trt_p.adj,                                  # (4)
+    probit_fair_int_p.adj,                                  # (5)
+    probit_fair_ctrl_p.adj                                  # (6)
+    ),
+  custom.header = list("Pr(zero-giving|X)" = 1:3, "Pr(fair_splitting|X)" = 4:6),
+  custom.model.names = c(
+    "(1)",                                                  # (1)
+    "(2)",                                                  # (2)
+    "(3)",                                                  # (3)
+    "(4)",                                                  # (4)
+    "(5)",                                                  # (5)
+    "(6)"                                                   # (6)
+  ),
+  custom.coef.names = c("T1", "T2", "T1&2", "Risk_Aversion (RA)", "SVO", "T1 × RA", "T2 × RA", "T1&2 × RA", "Female"),
+  omit.coef = "(Intercept)",
+  digits = 3,
+  stars = c(0.01, 0.05, 0.1),
+  custom.note = "* p<0.1; ** p<0.05; *** p<0.01. P-values associated with the treatments are adjusted using Bonferroni method."
+)
+
+```
+# Exploratory analysis
+## Covid effect
+```{r covid effect, warning=FALSE}
+# ============================= contingency table ============================ #
+treatment.group <- c("ctrl", "dictator_exp", "recipient_exp", "common_exp")
+
+contingency_obs_covid <- as.data.frame.matrix(
+  table(dict_by_trt$treatment, dict_by_trt$covid)
+  ) %>%
+  `colnames<-`(c("after.covid_obs", "during.covid_obs")) %>%
+  `rownames<-`(c("T0", "T1", "T2", "T1&2"))
+
+summary_giving_covid <- data.frame(
+  treatments = c("T0", "T1", "T2", "T1&2"),
+  during.covid = c(round(mean((dict_by_trt %>% filter(treatment == "ctrl" & covid == TRUE)) %>% pull(donation)), 2), 
+                   round(mean((dict_by_trt %>% filter(treatment == "dictator_exp" & covid == TRUE)) %>% pull(donation)), 2),
+                   round(mean((dict_by_trt %>% filter(treatment == "recipient_exp" & covid == TRUE)) %>% pull(donation)), 2),
+                   round(mean((dict_by_trt %>% filter(treatment == "common_exp" & covid == TRUE)) %>% pull(donation)), 2)),
+  after.covid = c(round(mean((dict_by_trt %>% filter(treatment == "ctrl" & covid != TRUE)) %>% pull(donation)), 2), 
+                   round(mean((dict_by_trt %>% filter(treatment == "dictator_exp" & covid != TRUE)) %>% pull(donation)), 2),
+                   round(mean((dict_by_trt %>% filter(treatment == "recipient_exp" & covid != TRUE)) %>% pull(donation)), 2),
+                   round(mean((dict_by_trt %>% filter(treatment == "common_exp" & covid != TRUE)) %>% pull(donation)), 2))
+  ) %>%
+  rename_with( ~ "Mean", .cols = 1)
+
+# =============================== covid effect =============================== #
+for (trt in treatment.group) {
+  mw <- paste("mw_", trt, sep = "")
+  assign(mw,
+         wilcox.test(
+           x = (dict_by_trt %>% filter(treatment == trt & covid == TRUE)) %>% pull(donation), 
+           y = (dict_by_trt %>% filter(treatment == trt & covid != TRUE)) %>% pull(donation), 
+           alternative = "two.sided", 
+           paired = FALSE)
+         )
+  mw_ties <- paste("mw_", trt, "_ties", sep = "")
+  assign(mw_ties,
+         coin::wilcox_test(
+           donation ~ factor(covid), 
+           data = dict_by_trt[dict_by_trt$treatment == trt, ],
+           alternative = "two.sided", 
+           paired = FALSE)
+         )
+}
+
+# =========================== local chunk summary ============================ #
+contingency_obs_covid[, c(2, 1)] # swap the original 1st and 2nd columns (putting "during covid" forward) 
+
+summary_giving_covid
+
+donation_covid.effect <- data.frame(
+  donation_covid.effect = c("T0", "T1", "T2", "T1&2"),
+  statistic_mw = c(mw_ctrl$statistic, 
+                   mw_dictator_exp$statistic, 
+                   mw_recipient_exp$statistic, 
+                   mw_common_exp$statistic),
+  p.value_mw = c(mw_ctrl$p.value, 
+                 mw_dictator_exp$p.value, 
+                 mw_recipient_exp$p.value, 
+                 mw_common_exp$p.value)
+)
+donation_covid.effect
+```
+
+## IOS scale
+```{r ios scale}
+# ================================= SUMMARY ================================== #
+summary_dictator_ios_trt <- mydata %>% 
+  group_by(dict_treatment) %>% 
+  filter(dict_id_in_group == 1) %>% # dictators only
+  drop_na(dict_gachter_circles) %>% 
+  summarise(
+    obs = n(),
+    mean_dictator = round(mean(dict_gachter_circles), 2),
+    sd_dictator = round(sd(dict_gachter_circles), 2)
+    # median = round(median(dict_gachter_circles), 2)
+    ) %>%
+  mutate(
+    dict_treatment = case_when(
+      dict_treatment == 0 ~ "T0",
+      dict_treatment == 1 ~ "T1",
+      dict_treatment == 2 ~ "T2",
+      dict_treatment == 3 ~ "T1&2",
+      TRUE ~ as.character(dict_treatment)
+    )
+  ) %>%
+  rename_with( ~ "treatment", .cols = 1)
+summary_dictator_ios_trt
+
+summary_recipient_ios_trt <- mydata %>% 
+  group_by(dict_treatment) %>% 
+  filter(dict_id_in_group == 2) %>% # dictators only
+  drop_na(dict_gachter_circles) %>% 
+  summarise(
+    obs = n(),
+    mean_recipient = round(mean(dict_gachter_circles), 2),
+    sd_recipient = round(sd(dict_gachter_circles), 2)
+    # median = round(median(dict_gachter_circles), 2)
+    ) %>%
+  mutate(
+    dict_treatment = case_when(
+      dict_treatment == 0 ~ "T0",
+      dict_treatment == 1 ~ "T1",
+      dict_treatment == 2 ~ "T2",
+      dict_treatment == 3 ~ "T1&2",
+      TRUE ~ as.character(dict_treatment)
+    )
+  ) %>%
+  rename_with( ~ "treatment", .cols = 1)
+summary_recipient_ios_trt
+
+# ================================ SAMPLE SIZE =============================== #
+# nrow(dict_by_trt %>% drop_na(ios))
+
+# ================================ CORRELATION =============================== #
+cor_svo_ios <- cor.test(
+  dict_by_trt %>% drop_na(ios) %>% pull(svo), 
+  dict_by_trt %>% drop_na(ios) %>% pull(ios)
+  )
+# cor_svo_ios
+
+pearson_donation_ios <- cor.test(
+  dict_by_trt %>% drop_na(ios) %>% pull(donation), 
+  dict_by_trt %>% drop_na(ios) %>% pull(ios)
+  )
+cor_donation_ios <- data.frame(
+  correlation = pearson_donation_ios$method,
+  r = pearson_donation_ios$estimate,
+  df = as.character(pearson_donation_ios$parameter),
+  statistic = pearson_donation_ios$statistic,
+  p = pearson_donation_ios$p.value
+) %>% mutate(
+    across(where(is.numeric), ~ format(round(., digits = 5), nsmall = 5, scientific = FALSE))
+)
+cor_donation_ios
+```
+
+```{r tobit (donation~ios)}
+# =========================== TOBIT: DONATION ~ IOS ========================== #
+tobit_donation_ios <- censReg(
+  formula = donation ~ ios + svo, left = 0,
+  data = dict_by_trt %>% drop_na(ios)
+)
+tobit_donation_ios_coeftest <- coeftest(tobit_donation_ios)
+
+# ================= TOBIT: ZERO-GIVING / FAIR-SPLITTING ~ IOS ================ #
+probit_zero_ios <- glm(
+  formula = zero_giving ~ ios + svo, family = binomial(link = probit), 
+  data = dict_by_trt %>% drop_na(ios)
+  )
+
+probit_fair_ios <- glm(
+  formula = fair_split ~ ios + svo, family = binomial(link = probit), 
+  data = dict_by_trt %>% drop_na(ios)
+  )
+
+selected.probit <- c("probit_zero_ios", "probit_fair_ios")
+for (model in selected.probit) {
+  probit_coeftest <- paste(model, "_coeftest", sep = "") 
+  assign(
+    probit_coeftest,
+    coeftest(get(model))
+    )
+}
+
+# =========================== MCFADDEN'S PSEUDO R2 =========================== #
+pseudoR2_tobit_donation_ios <- round(pseudoR2.tobit(tobit_donation_ios), 3)
+pseudoR2_probit_zero_ios <- round(PseudoR2(probit_zero_ios), 3)
+pseudoR2_probit_fair_ios <- round(PseudoR2(probit_fair_ios), 3)
+
+# ============================== LOG LIKELIHOOD ============================== #
+# logLik_tobit_donation_ios <- logLik(tobit_donation_ios)[1]
+
+# ============================ REGRESSION SUMMARY ============================ #
+screenreg(
+  l = list(
+    tobit_donation_ios,                                     # (1)
+    probit_zero_ios,                                        # (2)
+    probit_fair_ios                                         # (3)
+    ),
+  custom.header = list("Donation" = 1, "Zero-giving" = 2, "Fair-splitting" = 3),
+  custom.model.names = c(
+    "(1)",                                                  # (1)
+    "(2)",                                                  # (2)
+    "(3)"                                                   # (3)
+  ),
+  custom.coef.names = c("(Intercept)", "IOS", "SVO", "logSigma"),
+  omit.coef = "logSigma|(Intercept)",
+  digits = 3,
+  stars = c(0.01, 0.05, 0.1),
+  custom.note = "* p<0.1; ** p<0.05; *** p<0.01."
+)
+```
+```{r nonparametric tests (ios)}
+mw_ios_dictator_recipient <- wilcox.test(
+  x = mydata %>% drop_na(dict_gachter_circles) %>% filter(dict_id_in_group == 1) %>% pull(dict_gachter_circles), # dictators' ios
+  y = mydata %>% drop_na(dict_gachter_circles) %>% filter(dict_id_in_group == 2) %>% pull(dict_gachter_circles), # recipients' ios
+  alternative = "two.sided",
+  paired = FALSE)
+
+kruskal.wallis_ios_dictator_trts <- kruskal.test(
+  formula = dict_gachter_circles ~ dict_treatment, data = mydata %>% drop_na(dict_gachter_circles) %>% filter(dict_id_in_group == 1)
+  )
+
+kruskal.wallis_ios_recipient_trts <- kruskal.test(
+  formula = dict_gachter_circles ~ dict_treatment, data = mydata %>% drop_na(dict_gachter_circles) %>% filter(dict_id_in_group == 2)
+  )
+
+# ================================== SUMMARY ================================= #
+round.digits <- 4
+
+summary_ios <- data.frame(
+  comparison = c("dictators' ios_vs_recipients' ios", "dictators' ios_trt", "recipients' ios_trt"),
+  tests = c(
+    mw_ios_dictator_recipient$method, kruskal.wallis_ios_dictator_trts$method, kruskal.wallis_ios_recipient_trts$method
+  ),
+  statistics = c(
+    mw_ios_dictator_recipient$statistic, kruskal.wallis_ios_dictator_trts$statistic, kruskal.wallis_ios_recipient_trts$statistic
+  ),
+  df = c(
+    NA, as.character(kruskal.wallis_ios_dictator_trts$parameter), as.character(kruskal.wallis_ios_recipient_trts$parameter)
+  ),
+  p.value = c(
+    mw_ios_dictator_recipient$p.value, kruskal.wallis_ios_dictator_trts$p.value, kruskal.wallis_ios_recipient_trts$p.value
+  )
+) %>% mutate(
+    across(where(is.numeric), ~ format(round(., digits = round.digits), nsmall = round.digits, scientific = FALSE)),
+    significance = case_when(
+      p.value >= 0.1 ~ "None",
+      p.value >= 0.05 & p.value < 0.1 ~ "*",
+      p.value >= 0.01 & p.value < 0.05 ~ "**",
+      p.value < 0.01 ~ "***"
+    )
+)
+summary_ios
+```
