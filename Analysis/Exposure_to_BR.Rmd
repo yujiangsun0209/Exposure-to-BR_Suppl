@@ -22,16 +22,18 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Data Manipulation {.unnumbered}
+Data Manipulation {.unnumbered}
 ```{r data clearing & manipulation}
 # ============================= loading packages ============================= #
 pacman::p_load(
   # data manipulation
   tidyverse, dplyr, readxl, 
   # summary and plots
-  ggplot2, scales, xtable, jtools, broom.mixed, 
+  ggplot2, scales, xtable, jtools, broom.mixed, ggtext,
   # tests and regression
-  rcompanion, DescTools, dunn.test, conover.test, aod, corrplot, censReg, sandwich, lmtest, crch, miscTools, caret, mfx, pscl, broom, oglmx, stargazer, magrittr, texreg
+  rcompanion, DescTools, dunn.test, conover.test, aod, corrplot, censReg, sandwich, lmtest, crch, miscTools, caret, mfx, pscl, broom, oglmx, stargazer, magrittr, texreg,
+  # power analysis
+  pwr, pwrss
   )
 path2data <- "G:/My Drive/Projects/Giving under BR/R.markdown/data.csv"
 mydata <- as_tibble(read.csv(path2data, header = TRUE)) %>% 
@@ -142,6 +144,12 @@ dict_by_trt <- mydata %>%
       )) %>% 
   group_by(treatment)
 
+        # =========================== mode =========================== #        
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
         # ========== McFadden's pseudo R-squared for tobit =========== #
 pseudoR2.tobit <- function(obj) 1 - as.vector(logLik(obj)/logLik(update(obj, . ~ 1))) # PseudoR2() in 'DescTools' does not recognize "censReg" subject
 
@@ -157,7 +165,7 @@ remove(path2data)
 
 **HYPOTHSIS 1**
 
-Risk-neutral dictators with an \textit{ex ante} view on inequality aversion are unaffected by exposure to additive, zero-mean background risk.
+Risk-neutral dictators with an \textit{ex ante} view on inequality aversion are unaffected by exposure to additive, zero-mean background risk, such that $$ d_{ex\ ante}^{\textit{T0}}=d_{ex\ ante}^{\textit{T1}}=d_{ex\ ante}^{\textit{T2}}=d_{ex\ ante}^{\textit{T1&2}} $$
 
 ***
 
@@ -165,7 +173,7 @@ Risk-neutral dictators with an \textit{ex ante} view on inequality aversion are 
 
 **HYPOTHSIS 2**
 
-One-sided exposure (i.e., Treatments \textit{R_Exp} and \textit{D_Exp}) to additive and zero-mean background risk yields identical and nonpositive effects on FS donations, while common exposure (i.e., Treatment \textit{C_Exp}) has no effect, such that $$ d_{FS}^{\textit{D_Exp}}=d_{FS}^{\textit{R_Exp}}\leq d_{FS}^{\textit{C_Exp}}=d_{FS}^{\textit{No_Exp}} $$
+One-sided exposure (i.e., Treatments \textit{T2} and \textit{T1}) to additive and zero-mean background risk yields identical and nonpositive effects on FS donations, while common exposure (i.e., Treatment \textit{T1&2}) has no effect, such that $$ d_{FS}^{\textit{T1}}=d_{FS}^{\textit{T2}}\leq d_{FS}^{\textit{T1&2}}=d_{FS}^{\textit{T0}} $$
 
 ***
 
@@ -173,8 +181,8 @@ One-sided exposure (i.e., Treatments \textit{R_Exp} and \textit{D_Exp}) to addit
 
 **HYPOTHSIS 3**
 
-One-sided exposure (i.e., Treatments \textit{R_Exp} and \textit{D_Exp}) to additive and zero-mean background risk has opposite effects on BO donations. Specifically, the recipients' exposure (resp. the dictators' exposure) yields nonnegative (resp. nonpositive) effects on BO donations, such that $$ d_{BO}^{\textit{D_Exp}}\leq d_{BO}^{\textit{No_Exp}}\leq d_{BO}^{\textit{R_Exp}} $$
-Meanwhile common exposure (i.e., Treatment \textit{C_Exp}) yield nonnegative effects, such that $$ d_{BO}^{\textit{C_Exp}}\geq d_{BO}^{\textit{No_Exp}} $$
+One-sided exposure (i.e., Treatments \textit{T2} and \textit{T1}) to additive and zero-mean background risk has opposite effects on BO donations. Specifically, the recipients' exposure (resp. the dictators' exposure) yields nonnegative (resp. nonpositive) effects on BO donations, such that $$ d_{BO}^{\textit{T1}}\leq d_{BO}^{\textit{T0}}\leq d_{BO}^{\textit{T2}} $$
+Meanwhile common exposure (i.e., Treatment \textit{T1&2}) yield nonnegative effects, such that $$ d_{BO}^{\textit{T1&2}}\geq d_{BO}^{\textit{T0}} $$
 
 ***
 
@@ -199,6 +207,180 @@ summary_trt <- dict_by_trt %>%
     )
   )
 summary_trt
+```
+```{r plot}
+# ======================== TEMP. DATA FRAME FOR PLOTS ======================== #
+dict_by_trt_temp <- dict_by_trt %>% 
+  mutate(
+    density_trt = case_when(
+      treatment == "ctrl" ~ 1/sum(treatment == "ctrl"), 
+      treatment == "dictator_exp" ~ 1/sum(treatment == "dictator_exp"),
+      treatment == "recipient_exp" ~ 1/sum(treatment == "recipient_exp"),
+      treatment == "common_exp" ~ 1/sum(treatment == "common_exp"),
+    ), 
+    treatment = factor(
+      treatment, 
+      levels = c("ctrl", "dictator_exp", "recipient_exp", "common_exp")
+      )
+  )
+
+# ============================== COLOR PALETTE =============================== #
+color_t0 <- "#507B58"
+color_t1 <- "#AB3131"
+color_t2 <- "#6495ED"
+color_t12 <- "#D68452"
+
+summary_temp <- dict_by_trt_temp %>%
+  group_by(treatment) %>%
+  summarise(
+    mean.donation = mean(donation),
+    sd.donation = sd(donation),
+    se.donation = sd(donation)/sqrt(length(donation)),
+    ci.donation = qt((1-alpha)/2 + 0.5, length(donation)-1)*se.donation
+  )
+# summary_temp
+
+# ========================== DONATION DISTRIBUTION =========================== #
+hist_giving <- dict_by_trt_temp %>% 
+  ggplot(aes(x = donation,
+             fill = treatment)) + 
+  geom_histogram(position = "dodge", 
+                 aes(y = after_stat(density)), 
+                 color = "gray50",
+                 alpha = 0.8, binwidth = 1, linewidth = 0.5) + 
+  # NOTE: geom_line() and geom_density() serves the same purpose, but the former forms has a better legend presentation
+  geom_line(position = "identity", stat = "density",
+            aes(color = treatment),
+            adjust = 1, linewidth = 1) +
+  # geom_density(position = "identity",
+  #              aes(color = treatment),
+  #              adjust = 1, alpha = 0, linewidth = 1) +
+  coord_cartesian(ylim = c(0, 0.6), xlim = c(0, 15)) + 
+  scale_color_manual(values = c(color_t0, color_t1, color_t2, color_t12),
+                    labels=c('T0', 'T1', 'T2', 'T1&2')) +
+  scale_fill_manual(values = c(color_t0, color_t1, color_t2, color_t12),
+                    labels=c('T0', 'T1', 'T2', 'T1&2')) + 
+  scale_y_continuous(labels = percent_format()) +
+  labs(
+    # x = "Donation Distribution (in \U20AC)",
+    x = "",
+    y = "Proportion of Dictators across Treatments",
+    # title = "Donation distribution across treatments"
+    ) + 
+  theme_classic() + 
+  theme(
+    axis.text = element_text(face="bold"),
+    plot.title = element_text(hjust = 0.5),
+    legend.position = c(1, 1),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.title = element_blank(),
+    legend.text = element_text(face = "italic"),
+    legend.spacing.y = unit(0.1, 'cm'),
+    axis.title.y = element_text(
+      margin = margin(t = 0, r = 10, b = 0, l = 0)
+      )
+    ) +
+  guides(fill = guide_legend(byrow = TRUE))
+hist_giving
+
+# NOTE: fig_hist_giving is modified for its font size and is used in the article
+fig_hist_giving <- hist_giving +
+  theme(
+  axis.text = element_text(face = "bold", size = 14),         # Axis ticks
+  axis.title.y = element_text(
+    size = 16,                                                # Y-axis title
+    margin = margin(t = 0, r = 10, b = 0, l = 0)
+    ),
+  # axis.title.x = element_text(size = 13),                     # X-axis title
+  # plot.title = element_text(hjust = 0.5, size = 18),          # Plot title
+  legend.text = element_text(size = 13),                      # Legend text
+  legend.key.size = unit(.75, "cm")                             # Legend symbol size
+  )
+
+# ============================= AVERAGE DONATIONS ============================ #
+bar_giving <- dict_by_trt_temp %>% 
+  ggplot(aes(x = treatment, y = donation, 
+             fill = treatment
+             )) +
+  stat_summary(fun = mean, geom = "bar",
+               # fill = "#2B35AF", 
+               alpha = 0.9, width = 0.5, linewidth = 1) +
+  geom_errorbar(
+    data = summary_temp,
+    aes(x = treatment,
+        y = mean.donation,
+        ymin = mean.donation - se.donation,
+        ymax = mean.donation + se.donation),
+    width = 0.1,
+    color = "black",
+    position = position_dodge(0.5),
+    linewidth = 1) +
+  coord_cartesian(ylim = c(0, 12.0)) + 
+  scale_color_manual(values = c(color_t0, color_t1, color_t2, color_t12)) +
+  scale_fill_manual(values = c(color_t0, color_t1, color_t2, color_t12)) + 
+      # suppressing legend 
+  guides(fill = none) + 
+  labs(
+    # x = "Control and BR Treatments", 
+    x = "",
+    y = "Average Donations (out of 20\U20AC) with SE",
+    # title = "Mean levels of donation across all treatments with standard deviations"
+    ) + 
+  scale_x_discrete(
+    labels=c(
+      "ctrl" = expression(italic("T0")),
+      "dictator_exp" = expression(italic("T1")),
+      "recipient_exp" = expression(italic("T2")),
+      "common_exp" = expression(italic("T1&2"))
+      )
+    ) +
+  # annotate("text", x = 1.5, y = , label= "p = .0041", fontface = 'italic') + 
+  theme_classic() +
+    theme(
+      plot.title = element_text(hjust = 0.5),
+      legend.position = "none",
+      # legend.position = c(1, 1),
+      # legend.justification = c("right", "top"),
+      # legend.box.just = "right",
+      # legend.title = element_blank(),
+      # legend.spacing.y = unit(0.1, 'cm'),
+      axis.title.y = element_text(
+        margin = margin(t = 0, r = 10, b = 0, l = 0)
+        )) +
+  guides(fill = guide_legend(byrow = TRUE))
+bar_giving
+
+# NOTE: fig_bar_giving is modified for its font size and is used in the article
+fig_bar_giving <- bar_giving +
+  theme(
+  axis.text = element_text(face = "bold", size = 14),         # Axis ticks
+  axis.title.y = element_text(
+    size = 16,                                                # Y-axis title
+    margin = margin(t = 0, r = 10, b = 0, l = 0)
+    ),
+  # axis.title.x = element_text(size = 13),                     # X-axis title
+  # plot.title = element_text(hjust = 0.5, size = 18),          # Plot title
+  # legend.text = element_text(size = 13),                      # Legend text
+  # legend.key.size = unit(.75, "cm")                           # Legend symbol size
+  ) 
+
+# =============================== SAVING PLOTS =============================== #
+plots <- c(
+  # "hist_giving", 
+  # "bar_giving", 
+  "fig_hist_giving", 
+  "fig_bar_giving"
+  )
+device <- "pdf"
+for (plot in plots) {
+  filename <- paste(plot, ".", device, sep = "")
+  plotfile <- get(plot)
+  ggsave(filename = filename,
+         plot = plotfile, 
+         device = "pdf", 
+         scale = 1, width = 7, height = 5)
+}
 ```
 ```{r nonparametric tests}
 round.digits <- 4
@@ -316,8 +498,9 @@ summary_fair <- data.frame(
 )
 summary_fair
 ```
+
 # Regression Analysis
-## Donation amounts (Tobit)
+## Donation Amounts (Tobit, Left-censored at Zero)
 ```{r type-I tobit left-censored at zero}
 # NOTE: coeftest() is only for facilitating the p correction
 # ============================== SPECIFIICATION ============================== #
@@ -425,14 +608,14 @@ screenreg(
     "(3)",                                                  # (3)
     "(4)"                                                   # (4)
   ),
-  custom.coef.names = c("T1", "T2", "T1&2", "Risk_Aversion (RA)", "SVO", "T1 × RA", "T2 × RA", "T1&2 × RA", "Female", "Study_Lvl"),
+  custom.coef.names = c("T1", "T2", "T1&2", "Risk_Aversion (RA)", "SVO", "T1 × RA", "T2 × RA", "T1&2 × RA", "Female", "Educ_Lvl"),
   omit.coef = "logSigma|(Intercept)",
   digits = 3,
   stars = c(0.01, 0.05, 0.1),
   custom.note = "* p<0.1; ** p<0.05; *** p<0.01. P-values associated with the treatments are adjusted using Bonferroni method."
 )
 ```
-## Zero-giving & Fair-splitting
+## Zero-giving & Fair-splitting (Probit)
 ```{r probit with zero_giving & fair_split}
 # ============================== SPECIFIICATION ============================== #
         # ====================== ZERO-GIVING ====================== #
@@ -595,8 +778,419 @@ screenreg(
 )
 
 ```
-# Exploratory analysis
-## Covid effect
+
+# Appendix
+## Power Analysis {.tabset .tabset-fade}
+### The mean donation (test = "t")
+```{r t_min_size}
+sd_cettolin2017 <- mean(c(3.69, 3.63, 3.77, 3.45, 3.28, 4.15, 3.54, 3.59, 3.84, 4.06)) 
+# see Cettolin et al., (2017), Table 3 for five SDs in RISK-B and Table 6 for another five SDs in RISK-G
+
+min_size <- tibble::tibble(
+  comparison = rep("T0 vs. BR Trt.", times = 2),
+  effect.size_d = c("small", "medium"),
+  pooled_sd = rep(sd_cettolin2017, times = 2),
+  effect.size_d_mean_diff = c(round(0.2 * sd_cettolin2017, 3), round(0.5 * sd_cettolin2017, 3)),
+  tests = rep("two-sided t-Test", times = 2),
+  min_obs = round(
+    sapply(
+      X = effect.size_d,
+      FUN = function(i) (
+        pwr.t.test(
+          n = NULL, 
+          d = cohen.ES(test = "t", size = i)$effect.size, 
+          sig.level = 0.05, power = 0.8, type = "two.sample", 
+          alternative = "two.sided"
+          )
+        )$n
+      ),
+      digits = 0
+    )
+  )
+min_size
+```
+
+```{r t_power_obs plot}
+obs_curves_tbl <- tibble(
+  effect.size_d = factor(c("small", "medium"), levels = c("small", "medium")),
+  cohen_d = map_dbl(
+    as.character(effect.size_d), ~ cohen.ES(test = "t", size = .x)$effect.size
+  )
+) %>%
+  mutate(
+    data = map(cohen_d, function(d) {
+      tibble(
+        pwr_vals = seq(0.09, 0.99, by = 0.01),
+        min_obs = map_dbl(
+          .x = pwr_vals,
+          .f = ~ pwr.t.test(
+            n = NULL,
+            d = d,
+            sig.level = 0.05,
+            power = .x,
+            type = "two.sample",
+            alternative = "two.sided"
+          )$n
+        )
+      )
+    })
+  ) %>%
+  unnest(data)
+
+power_to_obs_t <- ggplot(
+  obs_curves_tbl, 
+  aes(x = pwr_vals, y = min_obs, color = effect.size_d)
+  ) +
+  geom_line(linewidth = 0.8) +
+  geom_vline(xintercept = 0.8, linetype = "dashed", color = "black") +
+  labs(
+    x = "Power (i.e., 1 - \u03B2)", # `\u03B2` is unicode for beta
+    y = "Minimum Sample Size Per Treatment",
+    # color = "Effect Size (Cohen's d, T-test, \u03B1 = 0.05)"
+  ) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(0, 700)) +
+  scale_color_manual(values = c("#CAA8F5", "#420D4B"),
+                     labels = c(
+                       "Small     (0.2)", 
+                       "Medium (0.5)"
+                       )
+                     ) + 
+  guides(
+  color = guide_legend(
+    title = expression("Effect Size (Cohen's "*d*", t-Test, " *alpha == 0.05* ")")
+    )
+  ) +
+  geom_hline(
+    yintercept = c(393.4057, 63.76561), 
+    linetype = "dashed",
+    color = c("#CAA8F5", "#420D4B")) + 
+  annotate(
+    "label", 
+    x = 0.03125, y = 393.4057, 
+    label = "N = 393", fontface = "italic", color = "black", fill = "#CAA8F5", label.size = NA
+    ) +
+  annotate(
+    "label", 
+    x = 0.03125, y = 63.76561, 
+    label = "N = 64", fontface = "italic", color = "white", fill = "#420D4B", label.size = NA
+    ) +
+  annotate(
+    "label", 
+    x = 0.8, y = 500, 
+    label = "1 - \u03B2 = 0.8", fill = "white", label.size = NA
+    ) +
+  theme_classic() +
+    theme(
+      plot.title = element_text(hjust = 0.5),
+      legend.position = c(0.1, 1),
+      legend.justification = c("left", "top"),
+      legend.box.just = "right",
+      # legend.title = element_blank(),
+      legend.spacing.y = unit(0.1, 'cm'),
+      axis.title.y = element_text(
+        margin = margin(t = 0, r = 10, b = 0, l = 0)
+        ),
+      legend.spacing.x = unit(0.1, 'cm'),
+      axis.title.x = element_text(
+        margin = margin(t = 10, r = 0, b = 0, l = 0)
+        )) +
+  guides(fill = guide_legend(byrow = TRUE))
+# power_to_obs_t
+
+# latex version with magnified font size 
+fig_pwr_obs_t <- power_to_obs_t +
+  theme(
+    axis.title = element_text(size = 14),       # Axis titles 
+    axis.text = element_text(size = 13),        # Tick labels
+    legend.title = element_text(size = 14),     # Legend title
+    legend.text = element_text(size = 13)       # Legend labels
+  )
+fig_pwr_obs_t
+```
+
+### "Zero-giving" & "Fair-splitting" (test = "chisq")
+```{r chisq_min_size}
+min_size <- tibble::tibble(
+  comparison = rep("T0 vs. BR Trt.", times = 2),
+  effect.size_d = c("small", "medium"),
+  tests = rep(" Chi-squared test", times = 2),
+  df = rep(1, times = 2),
+  min_obs = round(
+    sapply(
+      X = effect.size_d,
+      FUN = function(i) (
+        pwr.chisq.test(
+          N = NULL, 
+          w = cohen.ES(test = "chisq", size = i)$effect.size, 
+          df = 1, sig.level = 0.05, power = 0.8
+          )
+        )$N / 2 # pwr.chisq.test() returns total N, not per group
+      ),
+      digits = 0
+    )
+  )
+min_size
+```
+
+```{r chisq_power_obs plot}
+obs_curves_tbl <- tibble(
+  effect.size_d = factor(c("small", "medium"), levels = c("small", "medium")),
+  cohen_d = map_dbl(
+    as.character(effect.size_d), ~ cohen.ES(test = "chisq", size = .x)$effect.size
+  )
+) %>%
+  mutate(
+    data = map(cohen_d, function(d) {
+      tibble(
+        pwr_vals = seq(0.09, 0.99, by = 0.01),
+        min_obs = map_dbl(
+          .x = pwr_vals,
+          .f = ~ pwr.chisq.test(
+            N = NULL,
+            w = d,
+            df = 1,
+            sig.level = 0.05,
+            power = .x
+          )$N / 2
+        )
+      )
+    })
+  ) %>%
+  unnest(data)
+
+power_to_obs_chisq <- ggplot(
+  obs_curves_tbl, 
+  aes(x = pwr_vals, y = min_obs, color = effect.size_d)
+  ) +
+  geom_line(linewidth = 0.8) +
+  geom_vline(xintercept = 0.8, linetype = "dashed", color = "black") +
+  labs(
+    x = "Power (i.e., 1 - \u03B2)", # `\u03B2` is unicode for beta
+    y = "Minimum Sample Size Per Treatment",
+    # color = "Effect Size (Cohen's w, \u03C7\u00B2 test, df = 1, \u03B1 = 0.05)"
+  ) +
+  coord_cartesian(xlim = c(0, 1), ylim = c(0, 700)) +
+  scale_color_manual(
+  values = c("#CAA8F5", "#420D4B"),
+  labels = c("Small     (0.1)", "Medium (0.3)")
+  ) +
+  guides(
+  color = guide_legend(
+    title = expression("Effect Size (Cohen's " *w* ", " *chi^2* " Test, " *alpha == 0.05* ")")
+    )
+  ) +
+  geom_hline(
+    yintercept = c(392.443, 43.60477), 
+    linetype = "dashed",
+    color = c("#CAA8F5", "#420D4B")) + 
+  annotate(
+    "label", 
+    x = 0.03125, y = 392.443, 
+    label = "N = 392", fontface = "italic", color = "black", fill = "#CAA8F5", label.size = NA
+    ) +
+  annotate(
+    "label", 
+    x = 0.03125, y = 43.60477, 
+    label = "N = 44", fontface = "italic", color = "white", fill = "#420D4B", label.size = NA
+    ) +
+  annotate(
+    "label", 
+    x = 0.8, y = 500, 
+    label = "1 - \u03B2 = 0.8", fill = "white", label.size = NA
+    ) +
+  theme_classic() +
+    theme(
+      plot.title = element_text(hjust = 0.5),
+      legend.position = c(0.1, 1),
+      legend.justification = c("left", "top"),
+      legend.box.just = "right",
+      # legend.title = element_blank(),
+      legend.spacing.y = unit(0.1, 'cm'),
+      axis.title.y = element_text(
+        margin = margin(t = 0, r = 10, b = 0, l = 0)
+        ),
+      legend.spacing.x = unit(0.1, 'cm'),
+      axis.title.x = element_text(
+        margin = margin(t = 10, r = 0, b = 0, l = 0)
+        )) +
+  guides(fill = guide_legend(byrow = TRUE))
+# power_to_obs_chisq
+
+# latex version with magnified font size 
+fig_pwr_obs_chisq <- power_to_obs_chisq +
+  theme(
+    axis.title = element_text(size = 14),       # Axis titles 
+    axis.text = element_text(size = 13),        # Tick labels
+    legend.title = element_text(size = 14),     # Legend title
+    legend.text = element_text(size = 13)       # Legend labels
+  )
+fig_pwr_obs_chisq
+```
+```{r plot saving}
+device = "pdf"
+plots <- c("fig_pwr_obs_t", "fig_pwr_obs_chisq")
+
+for (plot in plots) {
+  filename <- paste(plot, ".", device, sep = "")
+  plotfile <- get(plot)
+  ggsave(filename = filename,
+         plot = plotfile,
+         device = device,
+         scale = 1,
+         width = 7,
+         height = 5)
+}
+```
+
+## Risk preference, SVO, and Social-Demographic Controls
+```{r control variables across trt.}
+# =================== RP, SP, & SOCIAL DEMOGRAPHIC CONTROLS ================== #
+summary_control.var <- dict_by_trt %>% 
+  group_by(treatment) %>% 
+  summarise(
+    # obs = n(),
+  # risk aversion from BRET ----------------------------------------------------
+    "mean(bret)" = round(mean(ra_bret), 2), # use ra_bret instead of bret, ra_bret: # of boxes unopened -> deg. of risk aversion
+    "sd(bret)" = round(sd(ra_bret), 2),
+    # "median(bret)" = round(median(ra_bret), 2),
+  # prosociality from SVO ------------------------------------------------------
+    "mean(svo)" = round(mean(svo), 2),
+    "sd(svo)" = round(sd(svo), 2),
+    # "median(svo)" = round(median(svo), 2),
+  # social-demograhic controls from survey -------------------------------------
+    "pct(female)" = percent(sum(female == TRUE)/n(), accuracy = 0.01),
+    "mean(age)" = round(mean(age), 2),
+    "pct(student)" = percent(sum(student == TRUE)/n(), accuracy = 0.01),
+    "mean(educ_level)" = round(mean(study.level), 2),
+    "pct(econ_major)" = percent(sum(econ == TRUE)/n(), accuracy = 0.01),
+    "mean(political_pref)" = round(mean(political), 2),
+    "mode(marital_status)" = getmode(marital_status)
+    )
+summary_control.var
+
+# ========================== TESTS ACROSS TREATMENTS ========================= #
+control.gender <- chisq.test(table(dict_by_trt$treatment, dict_by_trt$female))
+# control.age <- kruskal.test(age ~ treatment, data = dict_by_trt)
+control.age <- aov(dict_by_trt$age ~ dict_by_trt$treatment)
+control.student <- chisq.test(table(dict_by_trt$treatment, dict_by_trt$student))
+# control.educ <- kruskal.test(study.level ~ treatment, data = dict_by_trt)
+control.educ <- aov(dict_by_trt$study.level ~ dict_by_trt$treatment)
+control.econ_major <- chisq.test(table(dict_by_trt$treatment, dict_by_trt$econ))
+# control.political_pref <- kruskal.test(political ~ treatment, data = dict_by_trt)
+control.political_pref <- aov(dict_by_trt$political ~ dict_by_trt$treatment)
+control.marital_status <- fisher.test(table(dict_by_trt$treatment, dict_by_trt$marital_status))
+# control.bret <- kruskal.test(bret ~ treatment, data = dict_by_trt)
+control.bret <- aov(dict_by_trt$bret ~ dict_by_trt$treatment)
+# control.svo <- kruskal.test(svo ~ treatment, data = dict_by_trt)
+control.svo <- aov(dict_by_trt$svo ~ dict_by_trt$treatment)
+control.svo_type <- fisher.test(table(dict_by_trt$treatment, dict_by_trt$svo_type))
+
+# ================================== SUMMARY ================================= #
+round.digits <- 4
+
+variable_control <- data.frame(
+  variable = c(
+    # risk & social preferences
+    "bret","svo", 
+    # "svo_type",
+    # social-demographic variables
+    "gender", "age", "student", "educ", "econ_major","political_pref", "marital_status"
+    ), 
+  test_two.sided = c(
+    # control.bret$method,
+    "ANOVA", 
+    # control.svo$method, 
+    "ANOVA", 
+    # control.svo_type$method,
+    control.gender$method, 
+    # control.age$method, 
+    "ANOVA", 
+    control.student$method, 
+    # control.educ$method, 
+    "ANOVA", 
+    control.econ_major$method, 
+    # control.political_pref$method, 
+    "ANOVA", 
+    control.marital_status$method
+    ),
+  p.value = c(
+    # control.bret$p.value, 
+    summary(control.bret)[[1]][["Pr(>F)"]][1], 
+    # control.svo$p.value,
+    summary(control.svo)[[1]][["Pr(>F)"]][1], 
+    # control.svo_type$p.value,
+    control.gender$p.value, 
+    # control.age$p.value, 
+    summary(control.age)[[1]][["Pr(>F)"]][1], 
+    control.student$p.value, 
+    # control.educ$p.value, 
+    summary(control.educ)[[1]][["Pr(>F)"]][1], 
+    control.econ_major$p.value, 
+    # control.political_pref$p.value,
+    summary(control.political_pref)[[1]][["Pr(>F)"]][1], 
+    control.marital_status$p.value 
+    )
+)%>%
+  mutate(
+    across(where(is.numeric), ~ format(round(., digits = round.digits), nsmall = round.digits, scientific = FALSE)),
+    significance = case_when(
+      p.value >= 0.1 ~ "None",
+      p.value >= 0.05 & p.value < 0.1 ~ "*",
+      p.value >= 0.01 & p.value < 0.05 ~ "**",
+      p.value < 0.01 ~ "***")
+    )
+variable_control
+
+# ================================= cleaning ================================= #
+# remove(list = ls(pattern = "^control."))
+```
+
+```{r further investigation regarding `econ_major`}
+tobit_full.ctrl <- censReg(
+  formula = donation ~ treatment + ra_bret + svo + female + age + student + study.level + econ + political.pref + marital_status,
+  data = dict_by_trt, left = 0
+)
+probit_zero_full.ctrl <- glm(
+  formula = zero_giving ~ treatment + ra_bret + svo + female + age + student + study.level + econ + political.pref + marital_status,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+probit_fair_ctrl <- glm(
+  formula = fair_split ~ treatment + ra_bret + svo + female + age + student + study.level + econ + political.pref + marital_status,
+  family = binomial(link = probit), data = dict_by_trt
+  )
+
+screenreg(
+  l = list(
+    tobit_full.ctrl,                                        # (1)
+    probit_zero_full.ctrl,                                  # (2)
+    probit_fair_ctrl                                        # (3)
+    ),
+  custom.header = list(
+    "Donation" = 1:1,
+    "Donation=0" = 2:2, 
+    "Donation=10" = 3:3
+    ),
+  custom.model.names = c(
+    "(1)",                                                  # (1)
+    "(2)",                                                  # (2)
+    "(3)"                                                   # (3)
+  ),
+  omit.coef = "(Intercept)|logSigma",
+  custom.coef.names = c("T1", "T2", "T1&2", 
+                        "Risk_Aversion (RA)", "SVO", 
+                        "Female", "Age", "Student_Status", "Educ_Lvl",
+                        "Econ_Major", "Political_Pref.", 
+                        "Marital_Status: Pacsé(e)", "Marital_Status: Married", 
+                        "Marital_Status: Divorced"
+                        ),
+  digits = 3,
+  stars = c(0.01, 0.05, 0.1),
+  custom.note = "* p<0.1; ** p<0.05; *** p<0.01."
+)
+```
+
+## Exploratory Analysis
+### Covid Effect
 ```{r covid effect, warning=FALSE}
 # ============================= contingency table ============================ #
 treatment.group <- c("ctrl", "dictator_exp", "recipient_exp", "common_exp")
@@ -659,7 +1253,7 @@ donation_covid.effect <- data.frame(
 donation_covid.effect
 ```
 
-## IOS scale
+### IOS Scale
 ```{r ios scale}
 # ================================= SUMMARY ================================== #
 summary_dictator_ios_trt <- mydata %>% 
@@ -831,3 +1425,5 @@ summary_ios <- data.frame(
 )
 summary_ios
 ```
+
+
